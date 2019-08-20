@@ -23,7 +23,7 @@ const EditSecretaria = ({ match }) => {
       setRegister(response.data.pensioner);
     }
     getRegister();
-  }, [])
+  }, [match.params.id])
 
   const handleChange = e => {
     setRegister({
@@ -37,7 +37,7 @@ const EditSecretaria = ({ match }) => {
   }
 
   const saveRegister = async () => {
-    const response = await axios.put(`http://localhost:5000/api/v1/secretaria/${match.params.id}`, register);
+    await axios.put(`http://localhost:5000/api/v1/secretaria/${match.params.id}`, register);
     setSaveStatus(true);
   }
 

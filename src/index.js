@@ -7,6 +7,8 @@ import Secretaria from './components/Secretaria/Secretaria';
 import SecretariaForm from './components/Secretaria/SecretariaForm';
 import EditSecretaria from './components/Secretaria/Edit';
 import Integrador from './components/Integrador/Integrador';
+import IntegradorForm from './components/Integrador/IntegradorForm';
+import IntegradorShow from './components/Integrador/IntegradorShow';
 import Coordinandor from './components/Coordinador/Coordinador';
 import * as serviceWorker from './serviceWorker';
 import { Route, BrowserRouter as Router } from 'react-router-dom'
@@ -17,9 +19,11 @@ const routing = (
       <Route path="/" exact component={App} />
       <Route path="/about" component={About} />
       <Route path="/secretaria" component={Secretaria} />
-      <Route path="/secretaria-form" component={SecretariaForm} />
-      <Route path="/secreataria-edit/:id" component={EditSecretaria} />
+      <Route path="/secretaria-new" component={SecretariaForm} />
+      <Route path="/secretaria-edit/:id" component={EditSecretaria} />
       <Route path="/integrador" component={Integrador} />
+      <Route path="/integrador-new/:id" component={IntegradorForm} />
+      <Route path="/integrador-show/:id" component={IntegradorShow} />
       <Route path="/coordinador" component={Coordinandor} />
     </div>
   </Router>

@@ -1,24 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2'
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Pensioner = ({ pensioners, setUpdateRegisters }) => {
 
-  const [idRegister, setIdRegister] = useState('');
   const [pdfVisibility, setPdfVisibility] = useState(false);
 
   const anexos = () => {
     setPdfVisibility(!pdfVisibility);
-  }
-
-  const editRegisterFn = () => {
-    setIdRegister(pensioners._id);
-  }
-
-  if (idRegister !== '') {
-    let route = `/secreataria-edit/${idRegister}`;
-    return <Redirect to={route} />
   }
 
   const deleteAlertRegister = () => {
@@ -43,9 +33,19 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
     if (response.data.code === 200) setUpdateRegisters(true);
   }
 
-  return (
+  let classBorder = {};
+  if (pensioners.complement) {
+    if (window.location.href.includes('integrador')) {
+      classBorder = {
+        border: '0.2em solid rgba(0, 120, 10, 0.3)',
+        color: 'green',
+        fontWeight: 'bold '
+      }
+    }
+  }
 
-    <tr className="text-center">
+  return (
+    <tr className="text-center rounded" style={classBorder}>
       <td>{pensioners.turno}</td>
       <td>{pensioners.numeroOficio}</td>
       <td>{pensioners.fechaOficio}</td>
@@ -54,16 +54,28 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
       <td>{pensioners.promovente}</td>
       <td>{pensioners.numeroJuicio}</td>
       <td>{pensioners.turnado}</td>
-      
+
       {
         pdfVisibility ?
-        pensioners.anexo.map(pdf => 
-          <td>
-            <a href={`http://localhost:5000/${pdf}`} target="_blank">{pdf}</a>
-          </td>)
+          pensioners.anexo.map(pdf =>
+            <td>
+              <a href={`http://localhost:5000/${pdf}`} target="_blank" rel="noopener noreferrer">{pdf}</a>
+            </td>)
           : null
-        
-      }     
+      }
+      {
+        window.location.href.includes('integrador') ?
+          <td>
+            <Link
+              className="btn btn-primary"
+              title="Complementar registro"
+              to={`/integrador-new/${pensioners._id}`}
+            ><i className="material-icons">add</i>
+            </Link>
+          </td>
+          : null
+      }
+
       <td>
         <button
           type="button"
@@ -73,22 +85,36 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
         ><i className="material-icons">attach_file</i>
         </button>
       </td>
+      {
+        window.location.href.includes('secretaria') ?
+          <td>
+            <Link
+              className="btn btn-warning"
+              title="Editar registro"
+              to={`/secretaria-edit/${pensioners._id}`}
+            ><i className="material-icons">border_color</i>
+            </Link>
+          </td>
+          :
+          <td>
+            <Link
+              className="btn btn-success"
+              title="Mostar"
+              to={`/integrador-show/${pensioners._id}`}
+            ><i className="material-icons">find_in_page</i>
+            </Link>
+          </td>
+
+      }
+
       <td>
-        <Link
-          className="btn btn-warning"
-          title="Editar registro"
-          onClick={editRegisterFn}
-        ><i className="material-icons">border_color</i>
-        </Link>
-      </td>
-      <td>
-        <Link
+        <button
           className="btn btn-danger"
           title="Borrar registro"
           onClick={deleteAlertRegister}
         ><i className="material-icons">delete</i>
-        </Link>
-      </td>      
+        </button>
+      </td>
     </tr>
   );
 }

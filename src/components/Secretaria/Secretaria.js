@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from '../Header';
 import Pensioner from './Pensioner';
@@ -30,14 +30,17 @@ const Secretaria = () => {
       <div className="container-fluid">
         <div className="card mb-3 p-3">
           <div className="mb-2">
-            <Link
-              title="Agregar nuevo registro"
-              className="btn btn-info"
-              to="/secretaria-form">
-              <i className="material-icons">note_add</i>
-            </Link>
+            {
+              window.location.href.includes('secretaria') ?
+                <Link
+                  title="Agregar nuevo registro"
+                  className="btn btn-info"
+                  to="/secretaria-new">
+                  <i className="material-icons">note_add</i>
+                </Link>
+                : null
+            }
           </div>
-
           <div style={myCustomScrollbar}>
             <table className="table table-hover table-sm">
               <thead>
@@ -53,6 +56,8 @@ const Secretaria = () => {
                   <th scope="col">Anexos</th>
                   <th scope="col"></th>
                   <th scope="col"></th>
+                  <th scope="col"></th>
+
                 </tr>
               </thead>
               <tbody>

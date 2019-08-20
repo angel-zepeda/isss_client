@@ -1,8 +1,11 @@
 import React from 'react';
+import Secretaria from '../Secretaria/Secretaria';
 
 const Integrador = () => {
   return (
-    <h1>Integrador</h1>
+    <div>
+      <Secretaria />
+    </div>
   );
 }
 
