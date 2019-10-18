@@ -3,81 +3,98 @@ import axios from 'axios';
 import Header from '../Header';
 import Pensioner from './Pensioner';
 import { Link } from 'react-router-dom';
+import Search from '../Search';
 
 const myCustomScrollbar = {
-  position: 'relative',
-  height: '65vh',
-  overflow: 'auto',
-  width: '100%'
+    position: 'relative',
+    height: '65vh',
+    overflow: 'auto',
+    width: '100%'
 }
 
 const Secretaria = () => {
-  const [registers, setRegisters] = useState('');
-  const [updateRegisters, setUpdateRegisters] = useState(true);
+    const [registers, setRegisters] = useState('');
+    const [updateRegisters, setUpdateRegisters] = useState(true);
 
-  useEffect(() => {
+    useEffect(() => {
+        const getData = async () => {
+            const response = await axios('http://localhost:5000/api/v1/secretaria');
+            setRegisters(response.data);
+        }
+        getData();
+        setUpdateRegisters(false);
+    }, [updateRegisters])
+
     const getData = async () => {
-      const response = await axios('http://localhost:5000/api/v1/secretaria');
-      setRegisters(response.data);
+        const response = await axios('http://localhost:5000/api/v1/secretaria');
+        setRegisters(response.data);
     }
-    getData();
-    setUpdateRegisters(false);
-  }, [updateRegisters])
 
-  return (
-    <div>
-      <Header />
-      <div className="container-fluid">
-        <div className="card mb-3 p-3">
-          <div className="mb-2">
-            {
-              window.location.href.includes('secretaria') ?
-                <Link
-                  title="Agregar nuevo registro"
-                  className="btn btn-info"
-                  to="/secretaria-new">
-                  <i className="material-icons">note_add</i>
-                </Link>
-                : null
-            }
-          </div>
-          <div style={myCustomScrollbar}>
-            <table className="table table-hover table-sm">
-              <thead>
-                <tr className="text-center">
-                  <th scope="col">Turno</th>
-                  <th scope="col">Número de oficio</th>
-                  <th scope="col">Fecha de oficio</th>
-                  <th scope="col">Número de correspondencia</th>
-                  <th scope="col">Fecha de recepción</th>
-                  <th scope="col">Promovente</th>
-                  <th scope="col">Número de juicio</th>
-                  <th scope="col">Turnado</th>
-                  <th scope="col">Anexos</th>
-                  <th scope="col"></th>
-                  <th scope="col"></th>
-                  <th scope="col"></th>
+    const searchRegister = (data, key) => key === '' ? getData() : setRegisters({ pensioners1: data });
 
-                </tr>
-              </thead>
-              <tbody>
-                {registers.pensioners1 ?
-                  registers.pensioners1.map(pensioner => (
-                    <Pensioner
-                      key={pensioner._id}
-                      pensioners={pensioner}
-                      setUpdateRegisters={setUpdateRegisters}
-                    />
-                  ))
-                  : null}
-              </tbody>
-            </table>
-          </div>
+    return (
+        <div>
+            <Header />
+            <Search searchRegister={searchRegister} />
+            <div className="container-fluid">
+                <div className="card mb-3 p-3 shadow-lg bg-white rounded">
+                    <div className="mb-2">
+                        {
+                            window.location.href.includes('secretaria') ?
+                                <Link
+                                    title="Agregar nuevo registro"
+                                    className="btn btn-info"
+                                    to="/secretaria-new">
+                                    <i className="material-icons">note_add</i>
+                                </Link>
+                                : <button
+                                    title="Exportar XLSX"
+                                    className="btn btn-success pl-4 pr-4"
+                                >
+                                    <div className="row">
+                                        Exportar
+                    <i className="material-icons">line_style</i>
+                                    </div>
+
+                                </button>
+                        }
+                    </div>
+                    <div style={myCustomScrollbar}>
+                        <table className="table table-bordered table-sm">
+                            <thead className="thead-light">
+                                <tr className="text-center">
+                                    <th scope="col">Turno</th>
+                                    <th scope="col">Número de oficio</th>
+                                    <th scope="col">Fecha de oficio</th>
+                                    <th scope="col">Número de correspondencia</th>
+                                    <th scope="col">Fecha de recepción</th>
+                                    <th scope="col">Promovente</th>
+                                    <th scope="col">Número de juicio</th>
+                                    <th scope="col">Turnado</th>
+                                    <th scope="col">Acciones</th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {registers.pensioners1 ?
+                                    registers.pensioners1.map(pensioner => (
+                                        <Pensioner
+                                            key={pensioner._id}
+                                            pensioners={pensioner}
+                                            setUpdateRegisters={setUpdateRegisters}
+                                        />
+                                    ))
+                                    : null}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
-      </div>
-
-    </div>
-  );
+    );
 }
 
 export default Secretaria;

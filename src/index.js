@@ -16,15 +16,15 @@ import { Route, BrowserRouter as Router } from 'react-router-dom'
 const routing = (
   <Router>
     <div>
-      <Route path="/" exact component={App} />
-      <Route path="/about" component={About} />
-      <Route path="/secretaria" component={Secretaria} />
-      <Route path="/secretaria-new" component={SecretariaForm} />
-      <Route path="/secretaria-edit/:id" component={EditSecretaria} />
-      <Route path="/integrador" component={Integrador} />
-      <Route path="/integrador-new/:id" component={IntegradorForm} />
-      <Route path="/integrador-show/:id" component={IntegradorShow} />
-      <Route path="/coordinador" component={Coordinandor} />
+      <Route exact path="/" component={App} />
+      <Route exact path="/about" component={About} />
+      <Route exact path="/secretaria" component={Secretaria} />
+      <Route exact path="/secretaria-new" component={SecretariaForm} />
+      <Route exact path="/secretaria-edit/:id" component={EditSecretaria} />
+      <Route exact path="/integrador" component={Integrador} />
+      <Route exact path="/integrador-new/:id" component={IntegradorForm} />
+      <Route exact path="/integrador-show/:id" component={IntegradorShow} />
+      <Route exact path="/coordinador" component={Coordinandor} />
     </div>
   </Router>
 )

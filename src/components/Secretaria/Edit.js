@@ -37,7 +37,8 @@ const EditSecretaria = ({ match }) => {
   }
 
   const saveRegister = async () => {
-    await axios.put(`http://localhost:5000/api/v1/secretaria/${match.params.id}`, register);
+    const response = await axios.put(`http://localhost:5000/api/v1/secretaria/${match.params.id}`, register);
+    console.log(response)
     setSaveStatus(true);
   }
 

@@ -34,13 +34,17 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
   }
 
   let classBorder = {};
+  let btnShow = {};
   if (pensioners.complement) {
     if (window.location.href.includes('integrador')) {
       classBorder = {
-        border: '0.2em solid rgba(0, 120, 10, 0.3)',
         color: 'green',
         fontWeight: 'bold '
       }
+    }
+  } else {
+    btnShow = {
+      pointerEvents: 'none'
     }
   }
 
@@ -58,7 +62,7 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
       {
         pdfVisibility ?
           pensioners.anexo.map(pdf =>
-            <td>
+            <td key={pdf}>
               <a href={`http://localhost:5000/${pdf}`} target="_blank" rel="noopener noreferrer">{pdf}</a>
             </td>)
           : null
@@ -75,7 +79,6 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
           </td>
           : null
       }
-
       <td>
         <button
           type="button"
@@ -95,16 +98,16 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
             ><i className="material-icons">border_color</i>
             </Link>
           </td>
-          :
-          <td>
+          : <td>
             <Link
-              className="btn btn-success"
+              style={btnShow}
+              className="btn btn-success btn-show"
               title="Mostar"
               to={`/integrador-show/${pensioners._id}`}
-            ><i className="material-icons">find_in_page</i>
+            >
+              <i className="material-icons">find_in_page</i>
             </Link>
           </td>
-
       }
 
       <td>
