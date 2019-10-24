@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import Header from '../Header';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import global from '../../global';
 
-const SecretariaForm = () => {
+const SecretariaForm = ({ history }) => {
 
     const [saveStatus, setSaveStatus] = useState(false);
     const [file, setFiles] = useState({
@@ -45,7 +45,8 @@ const SecretariaForm = () => {
 
 
     const saveRegister = async () => {
-        const response = await axios.post('http://localhost:5000/api/v1/secretaria', register);
+        const response = await axios.post(global.server + 'secretaria', register);
+        console.log(response);
         if (response.data.code === 200) {
             sendFiles();
             setSaveStatus(true);
@@ -64,15 +65,14 @@ const SecretariaForm = () => {
     }
 
     const sendFiles = async () => {
-        var data = new FormData();
-
+        let data = new FormData();
         for (let i = 0; i <= file.files.length; i++) {
             data.append('files', file.files[i])
-            await axios.post('http://localhost:5000/api/v1/files', data)
+            await axios.post(global.server + 'files', data)
         }
     }
 
-    if (saveStatus) return <Redirect to="/secretaria/" />
+    if (saveStatus) history.push('/secretaria');
     return (
         <div>
             <Header />

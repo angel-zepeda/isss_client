@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2'
 import { Link } from 'react-router-dom';
+import global from '../../global';
 
 const Pensioner = ({ pensioners, setUpdateRegisters }) => {
 
@@ -29,7 +30,7 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
   }
 
   const deleteRegister = async () => {
-    const response = await axios.delete(`http://localhost:5000/api/v1/secretaria/${pensioners._id}`)
+    const response = await axios.delete(global.server + `secretaria/${pensioners._id}`)
     if (response.data.code === 200) setUpdateRegisters(true);
   }
 
@@ -63,7 +64,7 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
         pdfVisibility ?
           pensioners.anexo.map(pdf =>
             <td key={pdf}>
-              <a href={`http://localhost:5000/${pdf}`} target="_blank" rel="noopener noreferrer">{pdf}</a>
+              <a href={global.host + `${pdf}`} target="_blank" rel="noopener noreferrer">{pdf}</a>
             </td>)
           : null
       }
@@ -71,7 +72,8 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
         window.location.href.includes('integrador') ?
           <td>
             <Link
-              className="btn btn-primary"
+              style={pensioners.complement ? { pointerEvents: 'none' } : null}
+              className="btn btn-success"
               title="Complementar registro"
               to={`/integrador-new/${pensioners._id}`}
             ><i className="material-icons">add</i>
@@ -82,7 +84,7 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
       <td>
         <button
           type="button"
-          className="btn btn-info"
+          className="btn btn-primary"
           title="Anexos"
           onClick={anexos}
         ><i className="material-icons">attach_file</i>
@@ -101,7 +103,7 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
           : <td>
             <Link
               style={btnShow}
-              className="btn btn-success btn-show"
+              className="btn btn-warning btn-show"
               title="Mostar"
               to={`/integrador-show/${pensioners._id}`}
             >
@@ -118,7 +120,7 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
         ><i className="material-icons">delete</i>
         </button>
       </td>
-    </tr>
+    </tr >
   );
 }
 

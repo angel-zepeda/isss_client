@@ -1,11 +1,11 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
+import global from '../global.js';
 
 const Home = () => {
 
   const [user, setUser] = useState({ email: '', password: '' });
-  const [responseLogin, setResponseLogin] = useState('');
   const [access, setAccess] = useState(false);
   const [error, setError] = useState('');
   const [role, setRole] = useState('');
@@ -14,39 +14,24 @@ const Home = () => {
     setUser({ ...user, [e.target.name]: e.target.value })
   }
 
-  useEffect(() => {
-    const login = async () => {
-      const response = await axios.post('http://localhost:5000/api/v1/user/login', user);
-      setResponseLogin(response.data);
-    }
-    login();
-  }, [user]);
-
-
   const handleOnSubmit = e => {
     e.preventDefault();
+    login();
+  }
 
-    if (responseLogin.code === 200) {
-      setRole(responseLogin.user.role);
+  const login = async () => {
+    const response = await axios.post(global.server + '/login', user);
+    if (response.data.code === 200) {
+      setRole(response.data.user.role);
       setAccess(true);
     }
-    if (responseLogin.code === 404) setError(responseLogin.message);
+    if (response.data.code === 404) setError(response.data.message);
   }
 
-  if (access) {
-    if (role === 'Integrador') {
-      return <Redirect from="/" to="/integrador" />
-    }
-    if (role === 'Secretaria' || 'admin') {
-      return <Redirect from="/" to="/secretaria" />
-    }
-    if (role === 'coordinador') {
-      return <Redirect from="/" to="/coordinador" />
-    }
+  if (access) return <Redirect to={`/${role}`} />
 
-  }
   return (
-    <Fragment>
+    <div>
       {error ?
         <div className="alert alert-dismissible alert-danger col-md-4 mx-auto">
           <button type="button" className="close" data-dismiss="alert">&times;</button>
@@ -59,6 +44,7 @@ const Home = () => {
         <form onSubmit={handleOnSubmit} className="form-group card-body p-2">
           <label htmlFor="email">Email: </label>
           <input
+            value={user.email}
             type="email"
             name="email"
             className="form-control"
@@ -66,6 +52,7 @@ const Home = () => {
           />
           <label htmlFor="password">Contraseña</label>
           <input
+            value={user.password}
             type="password"
             name="password"
             className="form-control"
@@ -78,7 +65,7 @@ const Home = () => {
           />
         </form>
       </div>
-    </Fragment>
+    </div>
   );
 }
 

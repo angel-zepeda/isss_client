@@ -43,7 +43,7 @@ const Secretaria = () => {
                             window.location.href.includes('secretaria') ?
                                 <Link
                                     title="Agregar nuevo registro"
-                                    className="btn btn-info"
+                                    className="btn btn-primary"
                                     to="/secretaria-new">
                                     <i className="material-icons">note_add</i>
                                 </Link>
