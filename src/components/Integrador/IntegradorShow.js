@@ -1,19 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../Header';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import global from '../../global';
+import Swal from 'sweetalert2'
 
-const IntegradorShow = ({ match }) => {
+
+const IntegradorShow = ({ match, history }) => {
 
     const [register, setRegister] = useState('');
 
     useEffect(() => {
         const getData = async () => {
-            const response = await axios.get(`http://localhost:5000/api/v1/integrador/show/${match.params.id}`);
+            const response = await axios.get(global.server + `integrador/show/${match.params.id}`);
             setRegister(response.data.pensioner2[0]);
         }
         getData();
 
     }, [match.params.id])
+    const deleteAlertRegister = () => {
+        Swal.fire({
+            title: 'Estas seguro?',
+            text: '',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Borrar',
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6'
+        }).then((result) => {
+            if (result.value) {
+                deleteRegister();
+            }
+        })
+    }
+    const deleteRegister = async () => {
+        const response = await axios.delete(global.server + `integrador/${register._id}`)
+        const response2 = await axios.delete(global.server + `secretaria/${register.pensioner1._id}`)
+        if (response.data.code === 200 && response2.data.code === 200) history.push('/integrador');
+        
+    }
 
     const myCustomScrollbar = {
         position: 'relative',
@@ -21,11 +47,11 @@ const IntegradorShow = ({ match }) => {
         overflow: 'auto',
         width: '100%'
     }
-    console.log(register);
+
     return (
         <div>
             <Header />
-            <div className="container">
+            <div className="container-fluid">
                 <div className="" style={myCustomScrollbar}>
                     <table className="table table-bordered table-hover table-sm">
                         <thead className="thead-dark">
@@ -52,6 +78,7 @@ const IntegradorShow = ({ match }) => {
                                 <th scope="col">Mes de instalación</th>
                                 <th scope="col">Estatus del expediente</th>
                                 <th scope="col">Clasificación</th>
+                                <th scope="col">Anexos</th>
 
                             </tr>
                         </thead>
@@ -68,7 +95,7 @@ const IntegradorShow = ({ match }) => {
                                         <td>{register.pensioner1.numeroJuicio}</td>
                                         <td>{register.pensioner1.turnado}</td>
                                         <td>{register.pensioner1.anexo.map(anexo =>
-                                            <a key={anexo} target="_blank" rel="noopener noreferrer" href={`http://localhost:5000/${anexo}`}>{`"${anexo}"\n`}</a>)
+                                            <a key={anexo} target="_blank" rel="noopener noreferrer" href={global.host + `${anexo}`}>{`"${anexo}"\n`}</a>)
                                         }</td>
                                         <td>{register.numero_pension}</td>
                                         <td>{register.sala}</td>
@@ -83,13 +110,28 @@ const IntegradorShow = ({ match }) => {
                                         <td>{register.mes_instalacion}</td>
                                         <td>{register.estatus_expediente}</td>
                                         <td>{register.clasificacion}</td>
+                                        <td>{register.anexo.map(anexo =>
+                                            <a key={anexo} target="_blank" rel="noopener noreferrer" href={global.host + `${anexo}`}>{`"${anexo}"\n`}</a>)
+                                        }</td>
 
                                     </tr>
                                     : null
                             }
                         </tbody>
                     </table>
+
                 </div>
+                <Link
+                    className="btn btn-warning"
+                    to={`/integrador/edit/${match.params.id}`}
+                > EDITAR
+                </Link>
+                <button
+                    onClick={deleteAlertRegister}
+                    className="btn btn-danger ml-2"
+                >ELIMINAR
+    
+                </button>
             </div>
         </div>
     );

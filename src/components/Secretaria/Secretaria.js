@@ -4,6 +4,7 @@ import Header from '../Header';
 import Pensioner from './Pensioner';
 import { Link } from 'react-router-dom';
 import Search from '../Search';
+import global from '../../global';
 
 const myCustomScrollbar = {
     position: 'relative',
@@ -18,7 +19,7 @@ const Secretaria = () => {
 
     useEffect(() => {
         const getData = async () => {
-            const response = await axios('http://localhost:5000/api/v1/secretaria');
+            const response = await axios(global.server + '/secretaria');
             setRegisters(response.data);
         }
         getData();
@@ -26,7 +27,7 @@ const Secretaria = () => {
     }, [updateRegisters])
 
     const getData = async () => {
-        const response = await axios('http://localhost:5000/api/v1/secretaria');
+        const response = await axios(global.server + '/secretaria');
         setRegisters(response.data);
     }
 

@@ -19,7 +19,7 @@ const EditSecretaria = ({ match }) => {
 
   useEffect(() => {
     const getRegister = async () => {
-      const response = await axios.get(`http://localhost:5000/api/v1/secretaria/${match.params.id}`);
+      const response = await axios.get(global.server + `secretaria/${match.params.id}`);
       setRegister(response.data.pensioner);
     }
     getRegister();
@@ -37,7 +37,7 @@ const EditSecretaria = ({ match }) => {
   }
 
   const saveRegister = async () => {
-    const response = await axios.put(`http://localhost:5000/api/v1/secretaria/${match.params.id}`, register);
+    const response = await axios.put(global.server + `secretaria/${match.params.id}`, register);
     console.log(response)
     setSaveStatus(true);
   }

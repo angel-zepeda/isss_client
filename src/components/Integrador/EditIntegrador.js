@@ -1,90 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../Header';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
-import Swal from 'sweetalert2';
 import global from '../../global';
 
-const IntegradorForm = ({ match }) => {
+const EditIntegrador = ({ match, history }) => {
 
-  const [saveStatus, setSaveStatus] = useState(false);
-  const [file, setFiles] = useState({
-    files: []
-  });
   const [register, setRegister] = useState({
-    pensioner1_id: match.params.id,
-    numero_pension: '',
-    sala: '',
-    tipo_expediente: '',
-    numero_expediente: '',
-    observaciones: '',
-    letra: '',
-    termino_sentencia: '',
-    envio_juridico: '',
-    monto_cheque: '',
-    ajuste_cuota: '',
-    mes_instalacion: '',
-    estatus_expediente: '',
-    clasificacion: '',
-    anexo: []
+
   })
+
+  useEffect(() => {
+    const getRegister = async () => {
+      const response = await axios.get(global.server + `integrador/show/${match.params.id}`);
+      console.log(response.data.pensioner2)
+      setRegister(response.data.pensioner2[0]);
+    }
+    getRegister();
+  }, [match.params.id])
+
+
+
 
   const handleOnSubmit = e => {
     e.preventDefault();
-    saveRegister();
+    console.log(register)
+    updateRegister();
   }
 
   const handleChange = e => {
-    setRegister({
-      ...register, [e.target.name]: e.target.value
-    })
-    if (e.target.files) {
-      setRegister({ // SAVE FILE NAMES FOR REGISTER
-        ...register, anexo: [...register.anexo, e.target.files[0].name]
-      })
-
-      setFiles({ // SAVE FILES TO SEND TO SERVERzº
-        files: [...file.files, e.target.files[0]]
-      })
-    }
+    setRegister({ ...register, [e.target.name]: e.target.value })
   }
 
-  const saveRegister = async () => {
-    const response = await axios.post(global.server + 'integrador', register);
-    await axios.put(global.server + `secretaria/${match.params.id}`, { complement: true });
-    console.log(response)
-    if (response.data.code === 200) {
-      sendFiles();
-      setSaveStatus(true);
-      Swal.fire({
-        type: 'success',
-        title: 'Guardado correctamente!',
-        showConfirmButton: false,
-      })
-    } else {
-      Swal.fire({
-        type: 'warning',
-        title: 'Oops hubo un error!',
-        showConfirmButton: false,
-      })
-    }
+  const updateRegister = async () => {
+    const response = await axios.put(global.server + `integrador/${register._id}`, register);
+    if (response.data.code === 200) history.push('/integrador');
   }
 
-  const sendFiles = async () => {
-    var data = new FormData();
-    for (let i = 0; i <= file.files.length; i++) {
-      data.append('files', file.files[i])
-      await axios.post(global.server + 'files', data)
-    }
-  }
-
-  if (saveStatus) return <Redirect to="/integrador" />
   return (
-    <div>
+    <div >
       <Header />
-
       <div className="container">
-        <h2 className="text-center">Agregar registros</h2>
+        <h2>Editar registro</h2>
         <div className="card col-md-12 p-5">
           <form
             className="form-group row"
@@ -93,6 +49,7 @@ const IntegradorForm = ({ match }) => {
             <div className="col-md-4 col-sm-12">
               <label htmlFor="numero_pension">Número de pensión</label>
               <input
+                value={register.numero_pension}
                 type="text"
                 name="numero_pension"
                 onChange={handleChange}
@@ -100,6 +57,7 @@ const IntegradorForm = ({ match }) => {
               />
               <label htmlFor="sala">Sala</label>
               <input
+                value={register.sala}
                 type="text"
                 name="sala"
                 onChange={handleChange}
@@ -107,6 +65,7 @@ const IntegradorForm = ({ match }) => {
               />
               <label htmlFor="tipo_expediente">Tipo de expediente</label>
               <input
+                value={register.tipo_expediente}
                 type="text"
                 name="tipo_expediente"
                 onChange={handleChange}
@@ -114,6 +73,7 @@ const IntegradorForm = ({ match }) => {
               />
               <label htmlFor="numero_expediente">Número de expediente</label>
               <input
+                value={register.numero_expediente}
                 type="text"
                 name="numero_expediente"
                 onChange={handleChange}
@@ -125,6 +85,7 @@ const IntegradorForm = ({ match }) => {
 
               <label htmlFor="letra">Letra</label>
               <input
+                value={register.letra}
                 type="text"
                 onChange={handleChange}
                 name="letra"
@@ -132,6 +93,7 @@ const IntegradorForm = ({ match }) => {
               />
               <label htmlFor="termino_sentencia">Término de la sentencia</label>
               <input
+                value={register.termino_sentencia}
                 type="date"
                 name="termino_sentencia"
                 onChange={handleChange}
@@ -139,6 +101,7 @@ const IntegradorForm = ({ match }) => {
               />
               <label htmlFor="envio_juridico">Envio a jurídico</label>
               <input
+                value={register.envio_juridico}
                 type="date"
                 name="envio_juridico"
                 onChange={handleChange}
@@ -147,6 +110,7 @@ const IntegradorForm = ({ match }) => {
               <label htmlFor="observaciones">Observaciones</label>
               <textarea
                 type="area"
+                value={register.observaciones}
                 name="observaciones"
                 onChange={handleChange}
                 className="form-control col-md-12"
@@ -155,6 +119,7 @@ const IntegradorForm = ({ match }) => {
             <div className="col-md-4">
               <label htmlFor="monto_cheque">Monto Cheque</label>
               <input
+                value={register.monto_cheque}
                 type="number"
                 name="monto_cheque"
                 onChange={handleChange}
@@ -162,6 +127,7 @@ const IntegradorForm = ({ match }) => {
               />
               <label htmlFor="ajuste_cuota">Ajuste cuota</label>
               <input
+                value={register.ajuste_cuota}
                 type="number"
                 name="ajuste_cuota"
                 onChange={handleChange}
@@ -169,6 +135,7 @@ const IntegradorForm = ({ match }) => {
               />
               <label htmlFor="mes_instalacion">Mes de instalación</label>
               <input
+                value={register.mes_instalacion}
                 type="number"
                 name="mes_instalacion"
                 onChange={handleChange}
@@ -176,6 +143,7 @@ const IntegradorForm = ({ match }) => {
               />
               <label htmlFor="estatus_expediente">Estatus del expediente</label>
               <select
+                value={register.estatus_expediente}
                 name="estatus_expediente"
                 className="form-control"
                 onChange={handleChange}
@@ -188,6 +156,7 @@ const IntegradorForm = ({ match }) => {
 
               <label htmlFor="clasificacion">Clasificación</label>
               <select
+                value={register.clasificacion}
                 name="clasificacion"
                 className="form-control"
                 onChange={handleChange}
@@ -199,86 +168,13 @@ const IntegradorForm = ({ match }) => {
                 <option>Manifestación</option>
               </select>
             </div>
-            <h2 className="mt-4 mx-auto">Anexos: </h2>
-            <div className="col-md-12 row mt-3">
-              <div className="col-md-4 mb-2">
-                <input
-                  type="file"
-                  name="files"
-                  onChange={handleChange}
-                  className="form-control pb-2"
-                />
-              </div>
-              <div className="col-md-4 mb-4">
-                <input
-                  type="file"
-                  name="files"
-                  onChange={handleChange}
-                  className="form-control pb-2"
-                />
-              </div>
-              <div className="col-md-4 mb-4">
-                <input
-                  type="file"
-                  name="files"
-                  onChange={handleChange}
-                  className="form-control pb-2"
-                />
-              </div>
-              <div className="col-md-4 mb-4">
-                <input
-                  type="file"
-                  name="files"
-                  onChange={handleChange}
-                  className="form-control pb-2"
-                />
-              </div>
-              <div className="col-md-4 mb-4">
-                <input
-                  type="file"
-                  name="files"
-                  onChange={handleChange}
-                  className="form-control pb-2"
-                />
-              </div>
-              <div className="col-md-4 mb-4">
-                <input
-                  type="file"
-                  name="files"
-                  onChange={handleChange}
-                  className="form-control pb-2"
-                />
-              </div>
-              <div className="col-md-4 mb-4">
-                <input
-                  type="file"
-                  name="files"
-                  onChange={handleChange}
-                  className="form-control pb-2"
-                />
-              </div>
-              <div className="col-md-4 mb-4">
-                <input
-                  type="file"
-                  name="files"
-                  onChange={handleChange}
-                  className="form-control pb-2"
-                />
-              </div>
-              <div className="col-md-4 mb-4">
-                <input
-                  type="file"
-                  name="files"
-                  onChange={handleChange}
-                  className="form-control pb-2"
-                />
-              </div>
-            </div>
-            <input
+
+            <button
               type="submit"
-              className="btn btn-success col-md-6 mx-auto"
-              value="GUARDAR"
-            />
+              className="btn btn-primary col-md-6 mx-auto mt-5"
+            >
+              <i className="material-icons">save</i> GUARDAR
+            </button>
           </form>
         </div>
       </div>
@@ -286,4 +182,4 @@ const IntegradorForm = ({ match }) => {
   );
 }
 
-export default IntegradorForm;
+export default EditIntegrador;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import Swal from 'sweetalert2'
+// import axios from 'axios';
+// import Swal from 'sweetalert2'
 import { Link } from 'react-router-dom';
 import global from '../../global';
 
@@ -12,6 +12,7 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
     setPdfVisibility(!pdfVisibility);
   }
 
+  /*
   const deleteAlertRegister = () => {
     Swal.fire({
       title: 'Estas seguro?',
@@ -33,7 +34,7 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
     const response = await axios.delete(global.server + `secretaria/${pensioners._id}`)
     if (response.data.code === 200) setUpdateRegisters(true);
   }
-
+*/
   let classBorder = {};
   let btnShow = {};
   if (pensioners.complement) {
@@ -76,7 +77,7 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
               className="btn btn-success"
               title="Complementar registro"
               to={`/integrador-new/${pensioners._id}`}
-            ><i className="material-icons">add</i>
+            ><i className="material-icons p-2">add</i>
             </Link>
           </td>
           : null
@@ -87,7 +88,10 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
           className="btn btn-primary"
           title="Anexos"
           onClick={anexos}
-        ><i className="material-icons">attach_file</i>
+        >
+          <div className="row p-2">
+            <i className="material-icons">attach_file</i>ANEXOS
+          </div>
         </button>
       </td>
       {
@@ -97,7 +101,10 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
               className="btn btn-warning"
               title="Editar registro"
               to={`/secretaria-edit/${pensioners._id}`}
-            ><i className="material-icons">border_color</i>
+            >
+              <div className="row p-2">
+                <i className="material-icons">border_color</i>EDITAR
+              </div>
             </Link>
           </td>
           : <td>
@@ -107,19 +114,21 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
               title="Mostar"
               to={`/integrador-show/${pensioners._id}`}
             >
-              <i className="material-icons">find_in_page</i>
+              <div className="row p-2">
+                <i className="material-icons">find_in_page</i>MOSTRAR
+              </div>
             </Link>
           </td>
       }
 
-      <td>
+      {/*<td>
         <button
           className="btn btn-danger"
           title="Borrar registro"
           onClick={deleteAlertRegister}
         ><i className="material-icons">delete</i>
         </button>
-      </td>
+      </td>*/}
     </tr >
   );
 }

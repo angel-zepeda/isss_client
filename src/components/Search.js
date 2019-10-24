@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { css } from '@emotion/core';
 import ClipLoader from 'react-spinners/ClipLoader';
+import global from '../global';
 
 const Search = ({ searchRegister }) => {
     const [key, setKey] = useState('');
@@ -26,7 +27,7 @@ const Search = ({ searchRegister }) => {
 
     const getSearch = async () => {
         setLoading(true);
-        const response = await axios.post('http://localhost:5000/api/v1/search', { key: key, user: window.location.href });
+        const response = await axios.post(global.server + 'search', { key: key, user: window.location.href });
         searchRegister(response.data.find, key);
         console.log(response)
         if (response.data.find.length === 0) {
