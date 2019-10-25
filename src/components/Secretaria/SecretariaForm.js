@@ -83,6 +83,7 @@ const SecretariaForm = ({ history }) => {
                         <div className="col-md-4">
                             <label htmlFor="turno">Turno: </label>
                             <input
+                                required
                                 type="text"
                                 name="turno"
                                 onChange={handleChange}
@@ -90,6 +91,7 @@ const SecretariaForm = ({ history }) => {
                             />
                             <label htmlFor="numeroOficio">Número de Oficio: </label>
                             <input
+                                required
                                 type="text"
                                 name="numeroOficio"
                                 onChange={handleChange}
@@ -97,6 +99,7 @@ const SecretariaForm = ({ history }) => {
                             />
                             <label htmlFor="fechaOficio">Fecha de Oficio: </label>
                             <input
+                                required
                                 type="date"
                                 name="fechaOficio"
                                 onChange={handleChange}
@@ -106,6 +109,7 @@ const SecretariaForm = ({ history }) => {
                         <div className="col-md-4">
                             <label htmlFor="numeroCorrespondencia">Número de correspondencia: </label>
                             <input
+                                required
                                 type="text"
                                 name="numeroCorrespondencia"
                                 onChange={handleChange}
@@ -113,6 +117,7 @@ const SecretariaForm = ({ history }) => {
                             />
                             <label htmlFor="fechaRecepcion">Fecha de recepción: </label>
                             <input
+                                required
                                 type="date"
                                 name="fechaRecepcion"
                                 onChange={handleChange}
@@ -120,6 +125,7 @@ const SecretariaForm = ({ history }) => {
                             />
                             <label htmlFor="promovente">Promovente: </label>
                             <input
+                                required
                                 type="text"
                                 name="promovente"
                                 onChange={handleChange}
@@ -129,6 +135,7 @@ const SecretariaForm = ({ history }) => {
                         <div className="col-md-4">
                             <label htmlFor="numeroJuicio">Número de juicio: </label>
                             <input
+                                required
                                 type="text"
                                 name="numeroJuicio"
                                 onChange={handleChange}
@@ -136,6 +143,7 @@ const SecretariaForm = ({ history }) => {
                             />
                             <label htmlFor="turnado">Turnado: </label>
                             <input
+                                required
                                 type="text"
                                 name="turnado"
                                 onChange={handleChange}
@@ -193,11 +201,12 @@ const SecretariaForm = ({ history }) => {
                                 />
                             </div>
                         </div>
-                        <input
+                        <button
                             type="submit"
-                            className="btn btn-success col-md-6 mx-auto"
-                            value="GUARDAR"
-                        />
+                            className="btn btn-secondary col-md-6 mx-auto text-center"
+                        >
+                            GUARDAR
+                        </button>
                     </form>
                 </div>
             </div>

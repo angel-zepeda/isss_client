@@ -49,6 +49,7 @@ const EditIntegrador = ({ match, history }) => {
             <div className="col-md-4 col-sm-12">
               <label htmlFor="numero_pension">Número de pensión</label>
               <input
+                required
                 value={register.numero_pension}
                 type="text"
                 name="numero_pension"
@@ -57,6 +58,7 @@ const EditIntegrador = ({ match, history }) => {
               />
               <label htmlFor="sala">Sala</label>
               <input
+                required
                 value={register.sala}
                 type="text"
                 name="sala"
@@ -65,6 +67,7 @@ const EditIntegrador = ({ match, history }) => {
               />
               <label htmlFor="tipo_expediente">Tipo de expediente</label>
               <input
+                required
                 value={register.tipo_expediente}
                 type="text"
                 name="tipo_expediente"
@@ -73,6 +76,7 @@ const EditIntegrador = ({ match, history }) => {
               />
               <label htmlFor="numero_expediente">Número de expediente</label>
               <input
+                required
                 value={register.numero_expediente}
                 type="text"
                 name="numero_expediente"
@@ -85,6 +89,7 @@ const EditIntegrador = ({ match, history }) => {
 
               <label htmlFor="letra">Letra</label>
               <input
+                required
                 value={register.letra}
                 type="text"
                 onChange={handleChange}
@@ -93,6 +98,7 @@ const EditIntegrador = ({ match, history }) => {
               />
               <label htmlFor="termino_sentencia">Término de la sentencia</label>
               <input
+                required
                 value={register.termino_sentencia}
                 type="date"
                 name="termino_sentencia"
@@ -101,6 +107,7 @@ const EditIntegrador = ({ match, history }) => {
               />
               <label htmlFor="envio_juridico">Envio a jurídico</label>
               <input
+                required
                 value={register.envio_juridico}
                 type="date"
                 name="envio_juridico"
@@ -109,6 +116,7 @@ const EditIntegrador = ({ match, history }) => {
               />
               <label htmlFor="observaciones">Observaciones</label>
               <textarea
+                required
                 type="area"
                 value={register.observaciones}
                 name="observaciones"
@@ -119,6 +127,7 @@ const EditIntegrador = ({ match, history }) => {
             <div className="col-md-4">
               <label htmlFor="monto_cheque">Monto Cheque</label>
               <input
+                required
                 value={register.monto_cheque}
                 type="number"
                 name="monto_cheque"
@@ -127,6 +136,7 @@ const EditIntegrador = ({ match, history }) => {
               />
               <label htmlFor="ajuste_cuota">Ajuste cuota</label>
               <input
+                required
                 value={register.ajuste_cuota}
                 type="number"
                 name="ajuste_cuota"
@@ -135,6 +145,7 @@ const EditIntegrador = ({ match, history }) => {
               />
               <label htmlFor="mes_instalacion">Mes de instalación</label>
               <input
+                required
                 value={register.mes_instalacion}
                 type="number"
                 name="mes_instalacion"
@@ -143,6 +154,7 @@ const EditIntegrador = ({ match, history }) => {
               />
               <label htmlFor="estatus_expediente">Estatus del expediente</label>
               <select
+                required
                 value={register.estatus_expediente}
                 name="estatus_expediente"
                 className="form-control"
@@ -156,6 +168,7 @@ const EditIntegrador = ({ match, history }) => {
 
               <label htmlFor="clasificacion">Clasificación</label>
               <select
+                required
                 value={register.clasificacion}
                 name="clasificacion"
                 className="form-control"

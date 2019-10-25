@@ -55,7 +55,8 @@ const Search = ({ searchRegister }) => {
                     placeholder="Número de juicio, número de oficio, promovente, turno"
                 />
                 <button
-                    className="btn btn-success ml-2"
+                    title="Buscar"
+                    className="btn btn-secondary rounded ml-2"
                     type="submit"
                 >
                     {

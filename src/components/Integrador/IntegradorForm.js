@@ -93,6 +93,7 @@ const IntegradorForm = ({ match }) => {
             <div className="col-md-4 col-sm-12">
               <label htmlFor="numero_pension">Número de pensión</label>
               <input
+                required
                 type="text"
                 name="numero_pension"
                 onChange={handleChange}
@@ -100,6 +101,7 @@ const IntegradorForm = ({ match }) => {
               />
               <label htmlFor="sala">Sala</label>
               <input
+                required
                 type="text"
                 name="sala"
                 onChange={handleChange}
@@ -107,6 +109,7 @@ const IntegradorForm = ({ match }) => {
               />
               <label htmlFor="tipo_expediente">Tipo de expediente</label>
               <input
+                required
                 type="text"
                 name="tipo_expediente"
                 onChange={handleChange}
@@ -114,6 +117,7 @@ const IntegradorForm = ({ match }) => {
               />
               <label htmlFor="numero_expediente">Número de expediente</label>
               <input
+                required
                 type="text"
                 name="numero_expediente"
                 onChange={handleChange}
@@ -125,6 +129,7 @@ const IntegradorForm = ({ match }) => {
 
               <label htmlFor="letra">Letra</label>
               <input
+                required
                 type="text"
                 onChange={handleChange}
                 name="letra"
@@ -132,6 +137,7 @@ const IntegradorForm = ({ match }) => {
               />
               <label htmlFor="termino_sentencia">Término de la sentencia</label>
               <input
+                required
                 type="date"
                 name="termino_sentencia"
                 onChange={handleChange}
@@ -139,6 +145,7 @@ const IntegradorForm = ({ match }) => {
               />
               <label htmlFor="envio_juridico">Envio a jurídico</label>
               <input
+                required
                 type="date"
                 name="envio_juridico"
                 onChange={handleChange}
@@ -146,6 +153,7 @@ const IntegradorForm = ({ match }) => {
               />
               <label htmlFor="observaciones">Observaciones</label>
               <textarea
+                required
                 type="area"
                 name="observaciones"
                 onChange={handleChange}
@@ -155,6 +163,7 @@ const IntegradorForm = ({ match }) => {
             <div className="col-md-4">
               <label htmlFor="monto_cheque">Monto Cheque</label>
               <input
+                required
                 type="number"
                 name="monto_cheque"
                 onChange={handleChange}
@@ -162,6 +171,7 @@ const IntegradorForm = ({ match }) => {
               />
               <label htmlFor="ajuste_cuota">Ajuste cuota</label>
               <input
+                required
                 type="number"
                 name="ajuste_cuota"
                 onChange={handleChange}
@@ -169,6 +179,7 @@ const IntegradorForm = ({ match }) => {
               />
               <label htmlFor="mes_instalacion">Mes de instalación</label>
               <input
+                required
                 type="number"
                 name="mes_instalacion"
                 onChange={handleChange}
@@ -176,6 +187,7 @@ const IntegradorForm = ({ match }) => {
               />
               <label htmlFor="estatus_expediente">Estatus del expediente</label>
               <select
+                required
                 name="estatus_expediente"
                 className="form-control"
                 onChange={handleChange}
@@ -188,6 +200,7 @@ const IntegradorForm = ({ match }) => {
 
               <label htmlFor="clasificacion">Clasificación</label>
               <select
+                required
                 name="clasificacion"
                 className="form-control"
                 onChange={handleChange}

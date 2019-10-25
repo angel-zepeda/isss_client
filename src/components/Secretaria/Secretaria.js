@@ -46,7 +46,9 @@ const Secretaria = () => {
                                     title="Agregar nuevo registro"
                                     className="btn btn-primary"
                                     to="/secretaria-new">
-                                    <i className="material-icons">note_add</i>
+                                    <div className="row p-2">
+                                        <i className="material-icons">note_add</i>NUEVO
+                                    </div>
                                 </Link>
                                 : <button
                                     title="Exportar XLSX"
@@ -61,7 +63,7 @@ const Secretaria = () => {
                         }
                     </div>
                     <div style={myCustomScrollbar}>
-                        <table className="table table-bordered table-sm">
+                        <table className="table table-bordered table-hover table-sm">
                             <thead className="thead-light">
                                 <tr className="text-center">
                                     <th scope="col">Turno</th>
