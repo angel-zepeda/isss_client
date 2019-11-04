@@ -11,6 +11,7 @@ import IntegradorForm from './components/Integrador/IntegradorForm';
 import IntegradorShow from './components/Integrador/IntegradorShow';
 import IntegradorEdit from './components/Integrador/EditIntegrador';
 import Coordinandor from './components/Coordinador/Coordinador';
+import Consultor from './components/Consultor';
 import * as serviceWorker from './serviceWorker';
 import { Route, BrowserRouter as Router } from 'react-router-dom'
 
@@ -27,6 +28,7 @@ const routing = (
       <Route exact path="/integrador-show/:id" component={IntegradorShow} />
       <Route exact path="/integrador/edit/:id" component={IntegradorEdit} />
       <Route exact path="/coordinador" component={Coordinandor} />
+      <Route exact path="/consultor" component={Consultor} />
     </div>
   </Router>
 )

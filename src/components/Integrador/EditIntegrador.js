@@ -147,7 +147,7 @@ const EditIntegrador = ({ match, history }) => {
               <input
                 required
                 value={register.mes_instalacion}
-                type="number"
+                type="date"
                 name="mes_instalacion"
                 onChange={handleChange}
                 className="form-control col-md-12"

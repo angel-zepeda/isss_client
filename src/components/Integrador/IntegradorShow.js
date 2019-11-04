@@ -38,7 +38,7 @@ const IntegradorShow = ({ match, history }) => {
         const response = await axios.delete(global.server + `integrador/${register._id}`)
         const response2 = await axios.delete(global.server + `secretaria/${register.pensioner1._id}`)
         if (response.data.code === 200 && response2.data.code === 200) history.push('/integrador');
-        
+
     }
 
     const myCustomScrollbar = {
@@ -121,17 +121,24 @@ const IntegradorShow = ({ match, history }) => {
                     </table>
 
                 </div>
-                <Link
-                    className="btn btn-warning"
-                    to={`/integrador/edit/${match.params.id}`}
-                > EDITAR
-                </Link>
-                <button
-                    onClick={deleteAlertRegister}
-                    className="btn btn-danger ml-2"
-                >ELIMINAR
-    
-                </button>
+                {
+                    localStorage.getItem('role') === 'consultor' ?
+                        null
+                        :
+                        <div>
+                            <Link
+                                className="btn btn-warning"
+                                to={`/integrador/edit/${match.params.id}`}
+                            > EDITAR
+                    </Link>
+                            <button
+                                onClick={deleteAlertRegister}
+                                className="btn btn-danger ml-2"
+                            >ELIMINAR
+                    </button>
+                        </div>
+                }
+
             </div>
         </div>
     );

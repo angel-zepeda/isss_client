@@ -7,9 +7,7 @@ import global from '../../global';
 const SecretariaForm = ({ history }) => {
 
     const [saveStatus, setSaveStatus] = useState(false);
-    const [file, setFiles] = useState({
-        files: []
-    });
+    const [file, setFiles] = useState({ files: [] });
 
     const [register, setRegister] = useState({
         turno: "",

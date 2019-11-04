@@ -180,7 +180,7 @@ const IntegradorForm = ({ match }) => {
               <label htmlFor="mes_instalacion">Mes de instalación</label>
               <input
                 required
-                type="number"
+                type="date"
                 name="mes_instalacion"
                 onChange={handleChange}
                 className="form-control col-md-12"

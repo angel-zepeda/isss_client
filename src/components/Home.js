@@ -28,7 +28,10 @@ const Home = () => {
     if (response.data.code === 404) setError(response.data.message);
   }
 
-  if (access) return <Redirect to={`/${role}`} />
+  if (access) {
+    localStorage.setItem('role', role);
+    return <Redirect to={`/${role}`} />
+  }
 
   return (
     <div>
