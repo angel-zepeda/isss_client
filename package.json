@@ -16,7 +16,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build-surge": "./build-surge.sh"
+    "deploy": "./build-surge.sh"
   },
   "eslintConfig": {
     "extends": "react-app"

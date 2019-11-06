@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
 import global from '../global.js';
+import Spinner from './Spinner';
 
 const Home = () => {
 
@@ -9,6 +10,7 @@ const Home = () => {
   const [access, setAccess] = useState(false);
   const [error, setError] = useState('');
   const [role, setRole] = useState('');
+  const [showSpinner, setShowSpinner] = useState(false);
 
   const handleChange = e => {
     setUser({ ...user, [e.target.name]: e.target.value })
@@ -20,12 +22,17 @@ const Home = () => {
   }
 
   const login = async () => {
+    setShowSpinner(true);
     const response = await axios.post(global.server + '/login', user);
     if (response.data.code === 200) {
       setRole(response.data.user.role);
+      setShowSpinner(false);
       setAccess(true);
     }
-    if (response.data.code === 404) setError(response.data.message);
+    if (response.data.code === 404) {
+      setShowSpinner(false);
+      setError(response.data.message);
+    }
   }
 
   if (access) {
@@ -61,13 +68,21 @@ const Home = () => {
             className="form-control"
             onChange={handleChange}
           />
-          <input
+          <button
+            disabled={showSpinner}
             type="submit"
             className="btn btn-primary text-white col-md-12 col-sm-12 mt-3"
-            defaultValue="Iniciar"
-          />
+
+          >
+            Iniciar sesión
+          </button >
         </form>
       </div>
+      {
+        showSpinner ?
+          <Spinner />
+          : null
+      }
     </div>
   );
 }

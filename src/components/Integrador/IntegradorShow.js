@@ -3,43 +3,44 @@ import Header from '../Header';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import global from '../../global';
-import Swal from 'sweetalert2'
+// import Swal from 'sweetalert2'
 
 
 const IntegradorShow = ({ match, history }) => {
 
-    const [register, setRegister] = useState('');
+    const [register, setRegister] = useState([]);
 
     useEffect(() => {
         const getData = async () => {
             const response = await axios.get(global.server + `integrador/show/${match.params.id}`);
-            setRegister(response.data.pensioner2[0]);
+            setRegister(response.data.pensioner2);
         }
         getData();
 
     }, [match.params.id])
-    const deleteAlertRegister = () => {
-        Swal.fire({
-            title: 'Estas seguro?',
-            text: '',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Borrar',
-            cancelButtonText: 'Cancelar',
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6'
-        }).then((result) => {
-            if (result.value) {
-                deleteRegister();
-            }
-        })
-    }
-    const deleteRegister = async () => {
-        const response = await axios.delete(global.server + `integrador/${register._id}`)
-        const response2 = await axios.delete(global.server + `secretaria/${register.pensioner1._id}`)
-        if (response.data.code === 200 && response2.data.code === 200) history.push('/integrador');
+    // const deleteAlertRegister = () => {
+    //     Swal.fire({
+    //         title: 'Estas seguro?',
+    //         text: '',
+    //         type: 'warning',
+    //         showCancelButton: true,
+    //         confirmButtonText: 'Borrar',
+    //         cancelButtonText: 'Cancelar',
+    //         confirmButtonColor: '#d33',
+    //         cancelButtonColor: '#3085d6'
+    //     }).then((result) => {
+    //         if (result.value) {
+    //             deleteRegister();
+    //         }
+    //     })
+    // }
 
-    }
+    // const deleteRegister = async () => {
+    //     // const response = await axios.delete(global.server + `integrador/${register._id}`)
+    //     // const response2 = await axios.delete(global.server + `secretaria/${register.pensioner1._id}`)
+    //     // if (response.data.code === 200 && response2.data.code === 200) history.push('/integrador');
+    //     console.log()
+    // }
 
     const myCustomScrollbar = {
         position: 'relative',
@@ -85,59 +86,69 @@ const IntegradorShow = ({ match, history }) => {
                         <tbody>
                             {
                                 register !== '' ?
-                                    <tr className="text-center">
-                                        <td>{register.pensioner1.turno}</td>
-                                        <td>{register.pensioner1.numeroOficio}</td>
-                                        <td>{register.pensioner1.fechaOficio}</td>
-                                        <td>{register.pensioner1.numeroCorrespondencia}</td>
-                                        <td>{register.pensioner1.fechaRecepcion}</td>
-                                        <td>{register.pensioner1.promovente}</td>
-                                        <td>{register.pensioner1.numeroJuicio}</td>
-                                        <td>{register.pensioner1.turnado}</td>
-                                        <td>{register.pensioner1.anexo.map(anexo =>
-                                            <a key={anexo} target="_blank" rel="noopener noreferrer" href={global.host + `${anexo}`}>{`"${anexo}"\n`}</a>)
-                                        }</td>
-                                        <td>{register.numero_pension}</td>
-                                        <td>{register.sala}</td>
-                                        <td>{register.tipo_expediente}</td>
-                                        <td>{register.numero_expediente}</td>
-                                        <td>{register.observaciones}</td>
-                                        <td>{register.letra}</td>
-                                        <td>{register.termino_sentencia}</td>
-                                        <td>{register.envio_juridico}</td>
-                                        <td>{register.monto_cheque}</td>
-                                        <td>{register.ajuste_cuota}</td>
-                                        <td>{register.mes_instalacion}</td>
-                                        <td>{register.estatus_expediente}</td>
-                                        <td>{register.clasificacion}</td>
-                                        <td>{register.anexo.map(anexo =>
-                                            <a key={anexo} target="_blank" rel="noopener noreferrer" href={global.host + `${anexo}`}>{`"${anexo}"\n`}</a>)
-                                        }</td>
-
-                                    </tr>
+                                    register.map(r => (
+                                        <tr className="text-center">
+                                            <td>{r.pensioner1.turno}</td>
+                                            <td>{r.pensioner1.numeroOficio}</td>
+                                            <td>{r.pensioner1.fechaOficio}</td>
+                                            <td>{r.pensioner1.numeroCorrespondencia}</td>
+                                            <td>{r.pensioner1.fechaRecepcion}</td>
+                                            <td>{r.pensioner1.promovente}</td>
+                                            <td>{r.pensioner1.numeroJuicio}</td>
+                                            <td>{r.pensioner1.turnado}</td>
+                                            <td>{r.pensioner1.anexo.map(anexo =>
+                                                <a key={anexo} target="_blank" rel="noopener noreferrer" href={global.host + `${anexo}`}>{`"${anexo}"\n`}</a>)
+                                            }</td>
+                                            <td>{r.numero_pension}</td>
+                                            <td>{r.sala}</td>
+                                            <td>{r.tipo_expediente}</td>
+                                            <td>{r.numero_expediente}</td>
+                                            <td>{r.observaciones}</td>
+                                            <td>{r.letra}</td>
+                                            <td>{r.termino_sentencia}</td>
+                                            <td>{r.envio_juridico}</td>
+                                            <td>{r.monto_cheque}</td>
+                                            <td>{r.ajuste_cuota}</td>
+                                            <td>{r.mes_instalacion}</td>
+                                            <td>{r.estatus_expediente}</td>
+                                            <td>{r.clasificacion}</td>
+                                            <td>{r.anexo.map(anexo =>
+                                                <a key={anexo} target="_blank" rel="noopener noreferrer" href={global.host + `${anexo}`}>{`"${anexo}"\n`}</a>)
+                                            }</td>
+                                            {
+                                                localStorage.getItem('role') === 'consultor' ?
+                                                    null
+                                                    :
+                                                    <div>
+                                                        <td>
+                                                            <Link
+                                                                className="btn btn-warning"
+                                                                to={`/integrador/edit/${r._id}`}
+                                                            > EDITAR
+                                                            </Link>
+                                                        </td>
+                                                        <td>
+                                                            <button
+                                                                onClick={async () => {
+                                                                    const response = await axios.delete(global.server + `integrador/${r._id}`)
+                                                                    // const response2 = await axios.delete(global.server + `secretaria/${r.pensioner1._id}`)
+                                                                    if (response.data.code === 200) history.push('/integrador');
+                                                                }}
+                                                                className="btn btn-danger ml-2"
+                                                            >ELIMINAR
+                                                            </button>
+                                                        </td>
+                                                    </div>
+                                            }
+                                        </tr>
+                                    ))
                                     : null
                             }
                         </tbody>
                     </table>
 
                 </div>
-                {
-                    localStorage.getItem('role') === 'consultor' ?
-                        null
-                        :
-                        <div>
-                            <Link
-                                className="btn btn-warning"
-                                to={`/integrador/edit/${match.params.id}`}
-                            > EDITAR
-                    </Link>
-                            <button
-                                onClick={deleteAlertRegister}
-                                className="btn btn-danger ml-2"
-                            >ELIMINAR
-                    </button>
-                        </div>
-                }
+
 
             </div>
         </div>

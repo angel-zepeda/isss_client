@@ -38,7 +38,7 @@ const Secretaria = () => {
             <Header />
             <Search searchRegister={searchRegister} />
             <div className="container-fluid">
-                <div className="card mb-3 p-3 shadow-lg bg-white rounded">
+                <div className="card p-1 shadow-lg bg-white rounded">
                     <div className="mb-2">
                         {
                             window.location.href.includes('secretaria') ?

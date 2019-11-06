@@ -3,12 +3,13 @@ import Header from '../Header';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import global from '../../global';
+import Spinner from '../Spinner';
 
 const SecretariaForm = ({ history }) => {
 
     const [saveStatus, setSaveStatus] = useState(false);
     const [file, setFiles] = useState({ files: [] });
-
+    const [showSpinner, setShowSpinner] = useState(false);
     const [register, setRegister] = useState({
         turno: "",
         numeroOficio: "",
@@ -38,6 +39,7 @@ const SecretariaForm = ({ history }) => {
 
     const handelOnSubmit = e => {
         e.preventDefault();
+        setShowSpinner(true);
         saveRegister();
     }
 
@@ -46,6 +48,7 @@ const SecretariaForm = ({ history }) => {
         const response = await axios.post(global.server + 'secretaria', register);
         console.log(response);
         if (response.data.code === 200) {
+            setShowSpinner(false);
             sendFiles();
             setSaveStatus(true);
             Swal.fire({
@@ -54,6 +57,7 @@ const SecretariaForm = ({ history }) => {
                 showConfirmButton: false,
             })
         } else {
+            setShowSpinner(false);
             Swal.fire({
                 type: 'warning',
                 title: 'Oops hubo un error!',
@@ -200,6 +204,7 @@ const SecretariaForm = ({ history }) => {
                             </div>
                         </div>
                         <button
+                            disabled={showSpinner}
                             type="submit"
                             className="btn btn-secondary col-md-6 mx-auto text-center"
                         >
@@ -208,6 +213,11 @@ const SecretariaForm = ({ history }) => {
                     </form>
                 </div>
             </div>
+            {
+                showSpinner ?
+                    <Spinner />
+                    : null
+            }
         </div>
     );
 }

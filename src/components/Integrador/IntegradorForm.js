@@ -4,10 +4,12 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import global from '../../global';
+import Spinner from '../Spinner';
 
 const IntegradorForm = ({ match }) => {
 
   const [saveStatus, setSaveStatus] = useState(false);
+  const [showSpinner, setShowSpinner] = useState(false);
   const [file, setFiles] = useState({
     files: []
   });
@@ -31,6 +33,7 @@ const IntegradorForm = ({ match }) => {
 
   const handleOnSubmit = e => {
     e.preventDefault();
+    setShowSpinner(true);
     saveRegister();
   }
 
@@ -55,6 +58,7 @@ const IntegradorForm = ({ match }) => {
     console.log(response)
     if (response.data.code === 200) {
       sendFiles();
+      setShowSpinner(false);
       setSaveStatus(true);
       Swal.fire({
         type: 'success',
@@ -62,6 +66,7 @@ const IntegradorForm = ({ match }) => {
         showConfirmButton: false,
       })
     } else {
+      setShowSpinner(false);
       Swal.fire({
         type: 'warning',
         title: 'Oops hubo un error!',
@@ -164,7 +169,7 @@ const IntegradorForm = ({ match }) => {
               <label htmlFor="monto_cheque">Monto Cheque</label>
               <input
                 required
-                type="number"
+                type="string"
                 name="monto_cheque"
                 onChange={handleChange}
                 className="form-control col-md-12"
@@ -172,7 +177,7 @@ const IntegradorForm = ({ match }) => {
               <label htmlFor="ajuste_cuota">Ajuste cuota</label>
               <input
                 required
-                type="number"
+                type="string"
                 name="ajuste_cuota"
                 onChange={handleChange}
                 className="form-control col-md-12"
@@ -287,14 +292,22 @@ const IntegradorForm = ({ match }) => {
                 />
               </div>
             </div>
-            <input
+            <button
+              disabled={showSpinner}
               type="submit"
               className="btn btn-success col-md-6 mx-auto"
-              value="GUARDAR"
-            />
+
+            >
+              GUARDAR
+            </button>
           </form>
         </div>
       </div>
+      {
+        showSpinner ?
+          <Spinner />
+          : null
+      }
     </div>
   );
 }

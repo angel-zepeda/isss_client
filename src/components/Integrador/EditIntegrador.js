@@ -2,38 +2,69 @@ import React, { useState, useEffect } from 'react';
 import Header from '../Header';
 import axios from 'axios';
 import global from '../../global';
+import Swal from 'sweetalert2';
 
 const EditIntegrador = ({ match, history }) => {
 
-  const [register, setRegister] = useState({
-
-  })
+  const [register, setRegister] = useState({})
+  const [file, setFiles] = useState({
+    files: []
+  });
 
   useEffect(() => {
     const getRegister = async () => {
-      const response = await axios.get(global.server + `integrador/show/${match.params.id}`);
-      console.log(response.data.pensioner2)
-      setRegister(response.data.pensioner2[0]);
+      const response = await axios.get(global.server + `integrador/edit/${match.params.id}`);
+      setRegister(response.data.pensioner2);
     }
     getRegister();
   }, [match.params.id])
 
-
-
-
   const handleOnSubmit = e => {
     e.preventDefault();
-    console.log(register)
     updateRegister();
   }
 
   const handleChange = e => {
-    setRegister({ ...register, [e.target.name]: e.target.value })
+    setRegister({
+      ...register, [e.target.name]: e.target.value
+    })
+    if (e.target.files) {
+      setRegister({ // SAVE FILE NAMES FOR REGISTER
+        ...register, anexo: [...register.anexo, e.target.files[0].name]
+      })
+
+      setFiles({ // SAVE FILES TO SEND TO SERVERzº
+        files: [...file.files, e.target.files[0]]
+      })
+    }
+  }
+
+  const sendFiles = async () => {
+    var data = new FormData();
+    for (let i = 0; i <= file.files.length; i++) {
+      data.append('files', file.files[i])
+      await axios.post(global.server + 'files', data)
+    }
   }
 
   const updateRegister = async () => {
     const response = await axios.put(global.server + `integrador/${register._id}`, register);
-    if (response.data.code === 200) history.push('/integrador');
+    if (response.data.code === 200) {
+      sendFiles();
+      history.push('/integrador');
+      Swal.fire({
+        type: 'success',
+        title: 'Guardado correctamente!',
+        showConfirmButton: false,
+      })
+    } else {
+      Swal.fire({
+        type: 'warning',
+        title: 'Oops hubo un error!',
+        showConfirmButton: false,
+      })
+
+    }
   }
 
   return (
@@ -181,7 +212,81 @@ const EditIntegrador = ({ match, history }) => {
                 <option>Manifestación</option>
               </select>
             </div>
-
+            <h2 className="mt-4 mx-auto">Anexos: </h2>
+            <div className="col-md-12 row mt-3">
+              <div className="col-md-4 mb-2">
+                <input
+                  type="file"
+                  name="files"
+                  onChange={handleChange}
+                  className="form-control pb-2"
+                />
+              </div>
+              <div className="col-md-4 mb-4">
+                <input
+                  type="file"
+                  name="files"
+                  onChange={handleChange}
+                  className="form-control pb-2"
+                />
+              </div>
+              <div className="col-md-4 mb-4">
+                <input
+                  type="file"
+                  name="files"
+                  onChange={handleChange}
+                  className="form-control pb-2"
+                />
+              </div>
+              <div className="col-md-4 mb-4">
+                <input
+                  type="file"
+                  name="files"
+                  onChange={handleChange}
+                  className="form-control pb-2"
+                />
+              </div>
+              <div className="col-md-4 mb-4">
+                <input
+                  type="file"
+                  name="files"
+                  onChange={handleChange}
+                  className="form-control pb-2"
+                />
+              </div>
+              <div className="col-md-4 mb-4">
+                <input
+                  type="file"
+                  name="files"
+                  onChange={handleChange}
+                  className="form-control pb-2"
+                />
+              </div>
+              <div className="col-md-4 mb-4">
+                <input
+                  type="file"
+                  name="files"
+                  onChange={handleChange}
+                  className="form-control pb-2"
+                />
+              </div>
+              <div className="col-md-4 mb-4">
+                <input
+                  type="file"
+                  name="files"
+                  onChange={handleChange}
+                  className="form-control pb-2"
+                />
+              </div>
+              <div className="col-md-4 mb-4">
+                <input
+                  type="file"
+                  name="files"
+                  onChange={handleChange}
+                  className="form-control pb-2"
+                />
+              </div>
+            </div>
             <button
               type="submit"
               className="btn btn-primary col-md-6 mx-auto mt-5"

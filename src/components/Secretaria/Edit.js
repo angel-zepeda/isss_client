@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Header from '../Header';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import global from '../../global';
 
 const EditSecretaria = ({ match }) => {
 
@@ -19,7 +20,8 @@ const EditSecretaria = ({ match }) => {
 
   useEffect(() => {
     const getRegister = async () => {
-      const response = await axios.get(global.server + `secretaria/${match.params.id}`);
+      const response = await axios.get(global.server + `/secretaria/${match.params.id}`);
+      console.log(response)
       setRegister(response.data.pensioner);
     }
     getRegister();
