@@ -160,7 +160,7 @@ const EditIntegrador = ({ match, history }) => {
               <input
                 required
                 value={register.monto_cheque}
-                type="number"
+                type="text"
                 name="monto_cheque"
                 onChange={handleChange}
                 className="form-control col-md-12"
@@ -169,7 +169,7 @@ const EditIntegrador = ({ match, history }) => {
               <input
                 required
                 value={register.ajuste_cuota}
-                type="number"
+                type="text"
                 name="ajuste_cuota"
                 onChange={handleChange}
                 className="form-control col-md-12"

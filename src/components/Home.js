@@ -26,6 +26,7 @@ const Home = () => {
     const response = await axios.post(global.server + '/login', user);
     if (response.data.code === 200) {
       setRole(response.data.user.role);
+      localStorage.setItem('user', response.data.user.email);
       setShowSpinner(false);
       setAccess(true);
     }
@@ -37,6 +38,7 @@ const Home = () => {
 
   if (access) {
     localStorage.setItem('role', role);
+
     return <Redirect to={`/${role}`} />
   }
 

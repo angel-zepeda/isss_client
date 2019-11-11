@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
-const Header = () => {
+const Header = ({ setLogout }) => {
 
-  const [logoutValue, setLogoutValue] = useState(false);
+  const [user, setUser] = useState('usuario');
+  useEffect(() => {
+    setUser(localStorage.getItem('user'));
+  }, []);
 
-  if (logoutValue) return <Redirect to="/" />
+  const logout = e => {
+    e.preventDefault();
+    setLogout(true);
+    setUser('');
+    localStorage.removeItem('user');
+  }
 
   return (
     <div className="mb-4">
@@ -17,13 +25,29 @@ const Header = () => {
 
         <div className="collapse navbar-collapse" id="navbarColor01">
           <div className="navbar-nav mr-auto">
+
           </div>
-          <button
-            onClick={() => setLogoutValue(true)}
-            className="btn btn-primary"
-          >
-            <i className="material-icons">logout</i>
-          </button>
+          {
+            localStorage.getItem('user') !== null ?
+              <div>
+                <span className="text-white mr-2">{user}</span>
+                <button
+                  type="submit"
+                  onClick={logout}
+                  className="btn btn-primary"
+                >
+                  <i className="material-icons">logout</i>
+                </button>
+              </div>
+              :
+              <Link
+                className="btn-link text-white"
+                to="/">
+                Iniciar sesión
+              </Link>
+
+          }
+
         </div>
       </nav>
     </div>

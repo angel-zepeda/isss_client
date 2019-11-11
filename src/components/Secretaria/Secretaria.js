@@ -13,9 +13,10 @@ const myCustomScrollbar = {
     width: '100%'
 }
 
-const Secretaria = () => {
+const Secretaria = ({ history }) => {
     const [registers, setRegisters] = useState('');
     const [updateRegisters, setUpdateRegisters] = useState(true);
+    const [logout, setLogout] = useState(false);
 
     useEffect(() => {
         const getData = async () => {
@@ -31,11 +32,12 @@ const Secretaria = () => {
         setRegisters(response.data);
     }
 
+    if (logout) history.push('/');
     const searchRegister = (data, key) => key === '' ? getData() : setRegisters({ pensioners1: data });
 
     return (
         <div>
-            <Header />
+            <Header setLogout={setLogout} />
             <Search searchRegister={searchRegister} />
             <div className="container-fluid">
                 <div className="card p-1 shadow-lg bg-white rounded">

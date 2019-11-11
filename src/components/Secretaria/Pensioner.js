@@ -65,6 +65,12 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
           pensioners.anexo.map(pdf =>
             <td key={pdf}>
               <a href={global.host + `${pdf}`} target="_blank" rel="noopener noreferrer">{pdf}</a>
+              <button
+                onClick={e => {
+                  e.preventDefault();
+                  axios.post(global.server + `/deleteFile/${pdf}`);
+                }}
+                className="badge badge-danger ml-3">X</button>
             </td>)
 
           : null

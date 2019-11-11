@@ -10,6 +10,7 @@ const SecretariaForm = ({ history }) => {
     const [saveStatus, setSaveStatus] = useState(false);
     const [file, setFiles] = useState({ files: [] });
     const [showSpinner, setShowSpinner] = useState(false);
+    const [logout, setLogout] = useState(false);
     const [register, setRegister] = useState({
         turno: "",
         numeroOficio: "",
@@ -60,7 +61,7 @@ const SecretariaForm = ({ history }) => {
             setShowSpinner(false);
             Swal.fire({
                 type: 'warning',
-                title: 'Oops hubo un error!',
+                title: 'Oops hubo un error! al guardar verifíca los campos',
                 showConfirmButton: false,
             })
         }
@@ -73,11 +74,11 @@ const SecretariaForm = ({ history }) => {
             await axios.post(global.server + 'files', data)
         }
     }
-
+    if (logout) history.push('/');
     if (saveStatus) history.push('/secretaria');
     return (
         <div>
-            <Header />
+            <Header setLogout={setLogout} />
             <div className="container">
                 <h2 className="text-center mt-0">Nuevo registro</h2>
                 <div className="col-md-12 col-lg-12 card">
@@ -85,7 +86,6 @@ const SecretariaForm = ({ history }) => {
                         <div className="col-md-4">
                             <label htmlFor="turno">Turno: </label>
                             <input
-                                required
                                 type="text"
                                 name="turno"
                                 onChange={handleChange}
@@ -93,7 +93,6 @@ const SecretariaForm = ({ history }) => {
                             />
                             <label htmlFor="numeroOficio">Número de Oficio: </label>
                             <input
-                                required
                                 type="text"
                                 name="numeroOficio"
                                 onChange={handleChange}
@@ -101,7 +100,6 @@ const SecretariaForm = ({ history }) => {
                             />
                             <label htmlFor="fechaOficio">Fecha de Oficio: </label>
                             <input
-                                required
                                 type="date"
                                 name="fechaOficio"
                                 onChange={handleChange}
@@ -111,7 +109,6 @@ const SecretariaForm = ({ history }) => {
                         <div className="col-md-4">
                             <label htmlFor="numeroCorrespondencia">Número de correspondencia: </label>
                             <input
-                                required
                                 type="text"
                                 name="numeroCorrespondencia"
                                 onChange={handleChange}
