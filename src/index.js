@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import About from './components/About';
 import Secretaria from './components/Secretaria/Secretaria';
 import SecretariaForm from './components/Secretaria/SecretariaForm';
 import EditSecretaria from './components/Secretaria/Edit';
@@ -13,23 +12,31 @@ import IntegradorEdit from './components/Integrador/EditIntegrador';
 import Coordinandor from './components/Coordinador/Coordinador';
 import Consultor from './components/Consultor';
 import * as serviceWorker from './serviceWorker';
-import { Route, BrowserRouter as Router } from 'react-router-dom'
+import { Route, BrowserRouter as Router, Redirect, Switch } from 'react-router-dom'
+
+const MyRoute = props => {
+  let token = localStorage.getItem('token');
+  if (token === null) {
+    return <Redirect to="/" />
+  }
+
+  return <Route {...props} />
+}
 
 const routing = (
   <Router>
-    <div>
+    <Switch>
       <Route exact path="/" component={App} />
-      <Route exact path="/about" component={About} />
-      <Route exact path="/secretaria" component={Secretaria} />
-      <Route exact path="/secretaria-new" component={SecretariaForm} />
-      <Route exact path="/secretaria-edit/:id" component={EditSecretaria} />
-      <Route exact path="/integrador" component={Integrador} />
-      <Route exact path="/integrador-new/:id" component={IntegradorForm} />
-      <Route exact path="/integrador-show/:id" component={IntegradorShow} />
-      <Route exact path="/integrador/edit/:id" component={IntegradorEdit} />
-      <Route exact path="/coordinador" component={Coordinandor} />
-      <Route exact path="/consultor" component={Consultor} />
-    </div>
+      <MyRoute exact path="/secretaria" component={Secretaria} />
+      <MyRoute exact path="/secretaria-new" component={SecretariaForm} />
+      <MyRoute exact path="/secretaria-edit/:id" component={EditSecretaria} />
+      <MyRoute exact path="/integrador" component={Integrador} />
+      <MyRoute exact path="/integrador-new/:id" component={IntegradorForm} />
+      <MyRoute exact path="/integrador-show/:id" component={IntegradorShow} />
+      <MyRoute exact path="/integrador/edit/:id" component={IntegradorEdit} />
+      <MyRoute exact path="/coordinador" component={Coordinandor} />
+      <MyRoute exact path="/consultor" component={Consultor} />
+    </Switch>
   </Router>
 )
 

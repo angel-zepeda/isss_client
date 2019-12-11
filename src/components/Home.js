@@ -6,7 +6,7 @@ import Spinner from './Spinner';
 
 const Home = () => {
 
-  const [user, setUser] = useState({ email: '', password: '' });
+  const [user, setUser] = useState({ email: '', password: '', getToken: true });
   const [access, setAccess] = useState(false);
   const [error, setError] = useState('');
   const [role, setRole] = useState('');
@@ -24,6 +24,7 @@ const Home = () => {
   const login = async () => {
     setShowSpinner(true);
     const response = await axios.post(global.server + '/login', user);
+    localStorage.setItem('token', response.data.token);
     if (response.data.code === 200) {
       setRole(response.data.user.role);
       localStorage.setItem('user', response.data.user.email);
@@ -36,11 +37,7 @@ const Home = () => {
     }
   }
 
-  if (access) {
-    localStorage.setItem('role', role);
-
-    return <Redirect to={`/${role}`} />
-  }
+  if (access) return <Redirect to={`/${role}`} />
 
   return (
     <div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const Header = ({ setLogout }) => {
+const Header = () => {
 
   const [user, setUser] = useState('usuario');
   useEffect(() => {
@@ -10,9 +10,10 @@ const Header = ({ setLogout }) => {
 
   const logout = e => {
     e.preventDefault();
-    setLogout(true);
     setUser('');
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    window.location.reload();
   }
 
   return (

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from '../Header';
 import Pensioner from './Pensioner';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Search from '../Search';
 import global from '../../global';
 
@@ -13,35 +13,38 @@ const myCustomScrollbar = {
     width: '100%'
 }
 
-const Secretaria = ({ history }) => {
+const Secretaria = () => {
+
     const [registers, setRegisters] = useState('');
     const [updateRegisters, setUpdateRegisters] = useState(true);
-    const [logout, setLogout] = useState(false);
-
+    const [count, setCount] = useState(0);
     useEffect(() => {
         const getData = async () => {
             const response = await axios(global.server + '/secretaria');
             setRegisters(response.data);
+            setCount(response.data.pensioners1.length)
         }
         getData();
         setUpdateRegisters(false);
     }, [updateRegisters])
+    if (localStorage.getItem('token') === null) return <Redirect to="" />
 
     const getData = async () => {
         const response = await axios(global.server + '/secretaria');
         setRegisters(response.data);
     }
 
-    if (logout) history.push('/');
     const searchRegister = (data, key) => key === '' ? getData() : setRegisters({ pensioners1: data });
 
     return (
         <div>
-            <Header setLogout={setLogout} />
+            <Header />
+
             <Search searchRegister={searchRegister} />
             <div className="container-fluid">
                 <div className="card p-1 shadow-lg bg-white rounded">
                     <div className="mb-2">
+
                         {
                             window.location.href.includes('secretaria') ?
                                 <Link
@@ -63,6 +66,9 @@ const Secretaria = ({ history }) => {
 
                                 </button>
                         }
+                        <div className="float-right">
+                            <p className="badge badge-pill badge-secondary">{count} registros </p>
+                        </div>
                     </div>
                     <div style={myCustomScrollbar}>
                         <table className="table table-bordered table-hover table-sm">

@@ -1,5 +1,4 @@
-@import 'assets/bootstrap.min.css';
-
-i {
-  vertical-align: center;
+i {vertical-align: center;}
+body {
+  font-size: 0.85rem;
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2'
 import { Link } from 'react-router-dom';
@@ -7,10 +7,8 @@ import global from '../../global';
 const Pensioner = ({ pensioners, setUpdateRegisters }) => {
 
   const [pdfVisibility, setPdfVisibility] = useState(false);
-  const anexos = () => {
-    setPdfVisibility(!pdfVisibility);
-  }
 
+  const anexos = () => setPdfVisibility(!pdfVisibility);
 
   const deleteAlertRegister = () => {
     Swal.fire({
@@ -65,76 +63,60 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
           pensioners.anexo.map(pdf =>
             <td key={pdf}>
               <a href={global.host + `${pdf}`} target="_blank" rel="noopener noreferrer">{pdf}</a>
-              <button
-                onClick={e => {
-                  e.preventDefault();
-                  axios.post(global.server + `/deleteFile/${pdf}`);
-                }}
-                className="badge badge-danger ml-3">X</button>
             </td>)
-
           : null
       }
       {
         window.location.href.includes('integrador') ?
-          <div>
-
+          <Fragment>
             <td>
               <Link
                 // style={pensioners.complement ? { pointerEvents: 'none' } : null}
-                className="btn btn-success"
+                className="btn btn-success btn-sm"
                 title="Complementar registro"
                 to={`/integrador-new/${pensioners._id}`}
-              ><i className="material-icons p-2">add</i>
+              ><i className="material-icons">add</i>
               </Link>
             </td>
             <td>
               <button
                 onClick={deleteAlertRegister}
-                className="btn btn-danger">
-                <div className="row p-2">
-                  ELIMINAR
-                </div>
+                className="btn btn-danger btn-sm">
+                <i className="material-icons">delete_forever</i>
               </button>
             </td>
-          </div>
+          </Fragment>
           : null
       }
       <td>
         <button
           type="button"
-          className="btn btn-primary"
+          className="btn btn-primary btn-sm"
           title="Anexos"
           onClick={anexos}
         >
-          <div className="row p-2">
-            ANEXOS
-          </div>
+          <i className="material-icons">file_copy</i>
         </button>
       </td>
       {
         window.location.href.includes('secretaria') ?
           <td>
             <Link
-              className="btn btn-warning"
+              className="btn btn-warning btn-sm"
               title="Editar registro"
               to={`/secretaria-edit/${pensioners._id}`}
             >
-              <div className="row p-2">
-                EDITAR
-              </div>
+              <i className="material-icons">edit</i>
             </Link>
           </td>
           : <td>
             <Link
               style={btnShow}
-              className="btn btn-warning btn-show"
+              className="btn btn-warning btn-show btn-sm"
               title="Mostar"
               to={`/integrador-show/${pensioners._id}`}
             >
-              <div className="row p-2">
-                MOSTRAR
-              </div>
+              <i className="material-icons">search</i>
             </Link>
           </td>
       }

@@ -10,7 +10,6 @@ const SecretariaForm = ({ history }) => {
     const [saveStatus, setSaveStatus] = useState(false);
     const [file, setFiles] = useState({ files: [] });
     const [showSpinner, setShowSpinner] = useState(false);
-    const [logout, setLogout] = useState(false);
     const [register, setRegister] = useState({
         turno: "",
         numeroOficio: "",
@@ -74,11 +73,10 @@ const SecretariaForm = ({ history }) => {
             await axios.post(global.server + 'files', data)
         }
     }
-    if (logout) history.push('/');
     if (saveStatus) history.push('/secretaria');
     return (
         <div>
-            <Header setLogout={setLogout} />
+            <Header />
             <div className="container">
                 <h2 className="text-center mt-0">Nuevo registro</h2>
                 <div className="col-md-12 col-lg-12 card">
