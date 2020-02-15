@@ -12,16 +12,21 @@ import IntegradorEdit from './components/Integrador/EditIntegrador';
 import Coordinandor from './components/Coordinador/Coordinador';
 import Consultor from './components/Consultor';
 import * as serviceWorker from './serviceWorker';
-import { Route, BrowserRouter as Router, Redirect, Switch } from 'react-router-dom'
+import {
+  Route,
+  BrowserRouter as Router,
+  Redirect,
+  Switch,
+} from 'react-router-dom';
 
 const MyRoute = props => {
   let token = localStorage.getItem('token');
-  if (token === null) {
-    return <Redirect to="/" />
+  if (!token) {
+    return <Redirect to="/" />;
   }
 
-  return <Route {...props} />
-}
+  return <Route {...props} />;
+};
 
 const routing = (
   <Router>
@@ -38,7 +43,7 @@ const routing = (
       <MyRoute exact path="/consultor" component={Consultor} />
     </Switch>
   </Router>
-)
+);
 
 ReactDOM.render(routing, document.getElementById('root'));
 
@@ -46,5 +51,3 @@ ReactDOM.render(routing, document.getElementById('root'));
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
-
-

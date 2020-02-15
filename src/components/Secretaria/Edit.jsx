@@ -2,56 +2,64 @@ import React, { useState, useEffect } from 'react';
 import Header from '../Header';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-import global from '../../global';
+import { SERVER } from '../../global';
 
 const EditSecretaria = ({ match }) => {
-
   const [saveStatus, setSaveStatus] = useState(false);
   const [register, setRegister] = useState({
-    turno: "",
-    numeroOficio: "",
-    fechaOficio: "",
-    numeroCorrespondencia: "",
-    fechaRecepcion: "",
-    promovente: "",
-    numeroJuicio: "",
-    turnado: ""
-  })
+    turno: '',
+    numeroOficio: '',
+    fechaOficio: '',
+    numeroCorrespondencia: '',
+    fechaRecepcion: '',
+    promovente: '',
+    numeroJuicio: '',
+    turnado: '',
+  });
 
   useEffect(() => {
     const getRegister = async () => {
-      const response = await axios.get(global.server + `/secretaria/${match.params.id}`);
-      console.log(response)
+      const response = await axios.get(
+        `${SERVER}/secretaria/${match.params.id}`
+      );
+      console.log(response);
       setRegister(response.data.pensioner);
-    }
+    };
     getRegister();
-  }, [match.params.id])
+  }, [match.params.id]);
 
   const handleChange = e => {
     setRegister({
-      ...register, [e.target.name]: e.target.value
-    })
-  }
+      ...register,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handelOnSubmit = e => {
     e.preventDefault();
     saveRegister();
-  }
+  };
 
   const saveRegister = async () => {
-    const response = await axios.put(global.server + `secretaria/${match.params.id}`, register);
-    console.log(response)
+    const response = await axios.put(
+      `${SERVER}/secretaria/${match.params.id}`,
+      register
+    );
+    console.log(response);
     setSaveStatus(true);
-  }
+  };
 
-  if (saveStatus) return <Redirect to="/secretaria/" />
+  if (saveStatus) return <Redirect to="/secretaria/" />;
   return (
     <div>
       <Header />
       <div className="container">
         <h2 className="text-center mt-0">Editar registro</h2>
         <div className="col-md-12 col-lg-12 card">
-          <form onSubmit={handelOnSubmit} className="form-group card-body pt-5 row">
+          <form
+            onSubmit={handelOnSubmit}
+            className="form-group card-body pt-5 row"
+          >
             <div className="col-md-4">
               <label htmlFor="turno">Turno: </label>
               <input
@@ -79,7 +87,9 @@ const EditSecretaria = ({ match }) => {
               />
             </div>
             <div className="col-md-4">
-              <label htmlFor="numeroCorrespondencia">Número de correspondencia: </label>
+              <label htmlFor="numeroCorrespondencia">
+                Número de correspondencia:{' '}
+              </label>
               <input
                 type="text"
                 name="numeroCorrespondencia"
@@ -132,6 +142,6 @@ const EditSecretaria = ({ match }) => {
       </div>
     </div>
   );
-}
+};
 
 export default EditSecretaria;

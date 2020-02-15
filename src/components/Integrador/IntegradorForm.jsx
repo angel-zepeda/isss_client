@@ -3,15 +3,14 @@ import Header from '../Header';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import global from '../../global';
+import { SERVER } from '../../global';
 import Spinner from '../Spinner';
 
 const IntegradorForm = ({ match }) => {
-
   const [saveStatus, setSaveStatus] = useState(false);
   const [showSpinner, setShowSpinner] = useState(false);
   const [file, setFiles] = useState({
-    files: []
+    files: [],
   });
   const [register, setRegister] = useState({
     pensioner1_id: match.params.id,
@@ -28,34 +27,40 @@ const IntegradorForm = ({ match }) => {
     mes_instalacion: '',
     estatus_expediente: '',
     clasificacion: '',
-    anexo: []
-  })
+    anexo: [],
+  });
 
   const handleOnSubmit = e => {
     e.preventDefault();
     setShowSpinner(true);
     saveRegister();
-  }
+  };
 
   const handleChange = e => {
     setRegister({
-      ...register, [e.target.name]: e.target.value
-    })
+      ...register,
+      [e.target.name]: e.target.value,
+    });
     if (e.target.files) {
-      setRegister({ // SAVE FILE NAMES FOR REGISTER
-        ...register, anexo: [...register.anexo, e.target.files[0].name]
-      })
+      setRegister({
+        // SAVE FILE NAMES FOR REGISTER
+        ...register,
+        anexo: [...register.anexo, e.target.files[0].name],
+      });
 
-      setFiles({ // SAVE FILES TO SEND TO SERVERzº
-        files: [...file.files, e.target.files[0]]
-      })
+      setFiles({
+        // SAVE FILES TO SEND TO SERVERzº
+        files: [...file.files, e.target.files[0]],
+      });
     }
-  }
+  };
 
   const saveRegister = async () => {
-    const response = await axios.post(global.server + 'integrador', register);
-    await axios.put(global.server + `secretaria/${match.params.id}`, { complement: true });
-    console.log(response)
+    const response = await axios.post(`${SERVER}/integrador`, register);
+    await axios.put(`${SERVER}/secretaria/${match.params.id}`, {
+      complement: true,
+    });
+    console.log(response);
     if (response.data.code === 200) {
       sendFiles();
       setShowSpinner(false);
@@ -64,26 +69,26 @@ const IntegradorForm = ({ match }) => {
         type: 'success',
         title: 'Guardado correctamente!',
         showConfirmButton: false,
-      })
+      });
     } else {
       setShowSpinner(false);
       Swal.fire({
         type: 'warning',
         title: 'Oops hubo un error!',
         showConfirmButton: false,
-      })
+      });
     }
-  }
+  };
 
   const sendFiles = async () => {
     var data = new FormData();
     for (let i = 0; i <= file.files.length; i++) {
-      data.append('files', file.files[i])
-      await axios.post(global.server + 'files', data)
+      data.append('files', file.files[i]);
+      await axios.post(`${SERVER}/files`, data);
     }
-  }
+  };
 
-  if (saveStatus) return <Redirect to="/integrador" />
+  if (saveStatus) return <Redirect to="/integrador" />;
   return (
     <div>
       <Header />
@@ -91,10 +96,7 @@ const IntegradorForm = ({ match }) => {
       <div className="container">
         <h2 className="text-center">Agregar registros</h2>
         <div className="card col-md-12 p-5">
-          <form
-            className="form-group row"
-            onSubmit={handleOnSubmit}
-          >
+          <form className="form-group row" onSubmit={handleOnSubmit}>
             <div className="col-md-4 col-sm-12">
               <label htmlFor="numero_pension">Número de pensión</label>
               <input
@@ -128,10 +130,8 @@ const IntegradorForm = ({ match }) => {
                 onChange={handleChange}
                 className="form-control col-md-12"
               />
-
             </div>
             <div className="col-md-4">
-
               <label htmlFor="letra">Letra</label>
               <input
                 required
@@ -296,20 +296,15 @@ const IntegradorForm = ({ match }) => {
               disabled={showSpinner}
               type="submit"
               className="btn btn-success col-md-6 mx-auto"
-
             >
               GUARDAR
             </button>
           </form>
         </div>
       </div>
-      {
-        showSpinner ?
-          <Spinner />
-          : null
-      }
+      {showSpinner ? <Spinner /> : null}
     </div>
   );
-}
+};
 
 export default IntegradorForm;

@@ -1,54 +1,62 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../Header';
 import axios from 'axios';
-import global from '../../global';
+import { SERVER } from '../../global';
 import Swal from 'sweetalert2';
 
 const EditIntegrador = ({ match, history }) => {
-
-  const [register, setRegister] = useState({})
+  const [register, setRegister] = useState({});
   const [file, setFiles] = useState({
-    files: []
+    files: [],
   });
 
   useEffect(() => {
     const getRegister = async () => {
-      const response = await axios.get(global.server + `integrador/edit/${match.params.id}`);
+      const response = await axios.get(
+        `${SERVER}/integrador/edit/${match.params.id}`
+      );
       setRegister(response.data.pensioner2);
-    }
+    };
     getRegister();
-  }, [match.params.id])
+  }, [match.params.id]);
 
   const handleOnSubmit = e => {
     e.preventDefault();
     updateRegister();
-  }
+  };
 
   const handleChange = e => {
     setRegister({
-      ...register, [e.target.name]: e.target.value
-    })
+      ...register,
+      [e.target.name]: e.target.value,
+    });
     if (e.target.files) {
-      setRegister({ // SAVE FILE NAMES FOR REGISTER
-        ...register, anexo: [...register.anexo, e.target.files[0].name]
-      })
+      setRegister({
+        // SAVE FILE NAMES FOR REGISTER
+        ...register,
+        anexo: [...register.anexo, e.target.files[0].name],
+      });
 
-      setFiles({ // SAVE FILES TO SEND TO SERVERzº
-        files: [...file.files, e.target.files[0]]
-      })
+      setFiles({
+        // SAVE FILES TO SEND TO SERVERzº
+        files: [...file.files, e.target.files[0]],
+      });
     }
-  }
+  };
 
   const sendFiles = async () => {
     var data = new FormData();
     for (let i = 0; i <= file.files.length; i++) {
-      data.append('files', file.files[i])
-      await axios.post(global.server + 'files', data)
+      data.append('files', file.files[i]);
+      await axios.post(`${SERVER}/files`, data);
     }
-  }
+  };
 
   const updateRegister = async () => {
-    const response = await axios.put(global.server + `integrador/${register._id}`, register);
+    const response = await axios.put(
+      `${SERVER}/integrador/${register._id}`,
+      register
+    );
     if (response.data.code === 200) {
       sendFiles();
       history.push('/integrador');
@@ -56,27 +64,23 @@ const EditIntegrador = ({ match, history }) => {
         type: 'success',
         title: 'Guardado correctamente!',
         showConfirmButton: false,
-      })
+      });
     } else {
       Swal.fire({
         type: 'warning',
         title: 'Oops hubo un error!',
         showConfirmButton: false,
-      })
-
+      });
     }
-  }
+  };
 
   return (
-    <div >
+    <div>
       <Header />
       <div className="container">
         <h2>Editar registro</h2>
         <div className="card col-md-12 p-5">
-          <form
-            className="form-group row"
-            onSubmit={handleOnSubmit}
-          >
+          <form className="form-group row" onSubmit={handleOnSubmit}>
             <div className="col-md-4 col-sm-12">
               <label htmlFor="numero_pension">Número de pensión</label>
               <input
@@ -114,10 +118,8 @@ const EditIntegrador = ({ match, history }) => {
                 onChange={handleChange}
                 className="form-control col-md-12"
               />
-
             </div>
             <div className="col-md-4">
-
               <label htmlFor="letra">Letra</label>
               <input
                 required
@@ -298,6 +300,6 @@ const EditIntegrador = ({ match, history }) => {
       </div>
     </div>
   );
-}
+};
 
 export default EditIntegrador;
