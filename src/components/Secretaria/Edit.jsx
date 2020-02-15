@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../Header';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+
+import Header from '../Header';
 import { SERVER } from '../../global';
 
 const EditSecretaria = ({ match }) => {
@@ -22,7 +23,6 @@ const EditSecretaria = ({ match }) => {
       const response = await axios.get(
         `${SERVER}/secretaria/${match.params.id}`
       );
-      console.log(response);
       setRegister(response.data.pensioner);
     };
     getRegister();
@@ -35,18 +35,18 @@ const EditSecretaria = ({ match }) => {
     });
   };
 
+  const saveRegister = async () => {
+    try {
+      await axios.put(`${SERVER}/secretaria/${match.params.id}`, register);
+      setSaveStatus(true);
+    } catch (error) {
+      throw error;
+    }
+  };
+
   const handelOnSubmit = e => {
     e.preventDefault();
     saveRegister();
-  };
-
-  const saveRegister = async () => {
-    const response = await axios.put(
-      `${SERVER}/secretaria/${match.params.id}`,
-      register
-    );
-    console.log(response);
-    setSaveStatus(true);
   };
 
   if (saveStatus) return <Redirect to="/secretaria/" />;

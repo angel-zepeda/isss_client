@@ -1,14 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../Header';
 import axios from 'axios';
-import { SERVER } from '../../global';
 import Swal from 'sweetalert2';
+
+import Header from '../Header';
+import { SERVER } from '../../global';
 
 const EditIntegrador = ({ match, history }) => {
   const [register, setRegister] = useState({});
   const [file, setFiles] = useState({
     files: [],
   });
+
+  const sendFiles = async () => {
+    const data = new FormData();
+    for (let i = 0; i <= file.files.length; i += 1) {
+      data.append('files', file.files[i]);
+      await axios.post(`${SERVER}/files`, data);
+    }
+  };
+
+  const updateRegister = async () => {
+    const response = await axios.put(
+      `${SERVER}/integrador/${register._id}`,
+      register
+    );
+    if (response.data.code === 200) {
+      sendFiles();
+      history.push('/integrador');
+      Swal.fire({
+        type: 'success',
+        title: 'Guardado correctamente!',
+        showConfirmButton: false,
+      });
+    } else {
+      Swal.fire({
+        type: 'warning',
+        title: 'Oops hubo un error!',
+        showConfirmButton: false,
+      });
+    }
+  };
 
   useEffect(() => {
     const getRegister = async () => {
@@ -40,36 +71,6 @@ const EditIntegrador = ({ match, history }) => {
       setFiles({
         // SAVE FILES TO SEND TO SERVERzº
         files: [...file.files, e.target.files[0]],
-      });
-    }
-  };
-
-  const sendFiles = async () => {
-    var data = new FormData();
-    for (let i = 0; i <= file.files.length; i++) {
-      data.append('files', file.files[i]);
-      await axios.post(`${SERVER}/files`, data);
-    }
-  };
-
-  const updateRegister = async () => {
-    const response = await axios.put(
-      `${SERVER}/integrador/${register._id}`,
-      register
-    );
-    if (response.data.code === 200) {
-      sendFiles();
-      history.push('/integrador');
-      Swal.fire({
-        type: 'success',
-        title: 'Guardado correctamente!',
-        showConfirmButton: false,
-      });
-    } else {
-      Swal.fire({
-        type: 'warning',
-        title: 'Oops hubo un error!',
-        showConfirmButton: false,
       });
     }
   };

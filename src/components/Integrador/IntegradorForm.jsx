@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import Header from '../Header';
-import axios from 'axios';
-import { Redirect } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { SERVER } from '../../global';
+import { Redirect } from 'react-router-dom';
+import axios from 'axios';
+
+import Header from '../Header';
 import Spinner from '../Spinner';
+import { SERVER } from '../../global';
 
 const IntegradorForm = ({ match }) => {
   const [saveStatus, setSaveStatus] = useState(false);

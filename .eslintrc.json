@@ -22,7 +22,17 @@
         "react"
     ],
     "rules": {
+        "react/prop-types": 0,
         "import/prefer-default-export": "off",
-        "arrow-parens": "always"
+        "arrow-parens": 1,
+        "no-underscore-dangle": "off",
+        "comma-dangle": "off",
+        "no-await-in-loop": "off",
+        "no-console": [
+            "error",
+            {
+                "allow": "all"
+            }
+        ]
     }
 }
