@@ -3,7 +3,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 import Header from '../Header';
-import { SERVER } from '../../global';
+import { URLS } from '../../global';
 
 const EditIntegrador = ({ match, history }) => {
   const [register, setRegister] = useState({});
@@ -15,13 +15,13 @@ const EditIntegrador = ({ match, history }) => {
     const data = new FormData();
     for (let i = 0; i <= file.files.length; i += 1) {
       data.append('files', file.files[i]);
-      await axios.post(`${SERVER}/files`, data);
+      await axios.post(`${URLS.server}/files`, data);
     }
   };
 
   const updateRegister = async () => {
     const response = await axios.put(
-      `${SERVER}/integrador/${register._id}`,
+      `${URLS.server}/integrador/${register._id}`,
       register
     );
     if (response.data.code === 200) {
@@ -44,19 +44,19 @@ const EditIntegrador = ({ match, history }) => {
   useEffect(() => {
     const getRegister = async () => {
       const response = await axios.get(
-        `${SERVER}/integrador/edit/${match.params.id}`
+        `${URLS.server}/integrador/edit/${match.params.id}`
       );
       setRegister(response.data.pensioner2);
     };
     getRegister();
   }, [match.params.id]);
 
-  const handleOnSubmit = e => {
+  const handleOnSubmit = (e) => {
     e.preventDefault();
     updateRegister();
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setRegister({
       ...register,
       [e.target.name]: e.target.value,

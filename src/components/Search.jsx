@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { css } from '@emotion/core';
 import ClipLoader from 'react-spinners/ClipLoader';
-import { SERVER } from '../global';
+import { URLS } from '../global';
 
 const Search = ({ searchRegister }) => {
   const [key, setKey] = useState('');
   const [statusSearch, setStatusSearch] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const handleOnChange = e => {
+  const handleOnChange = (e) => {
     setKey(e.target.value);
   };
 
@@ -20,14 +20,14 @@ const Search = ({ searchRegister }) => {
     color: #fff;
   `;
 
-  const handleOnSubmit = e => {
+  const handleOnSubmit = (e) => {
     e.preventDefault();
     getSearch();
   };
 
   const getSearch = async () => {
     setLoading(true);
-    const response = await axios.post(`${SERVER}/search`, {
+    const response = await axios.post(`${URLS.server}/search`, {
       key: key,
       user: window.location.href,
     });

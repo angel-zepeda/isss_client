@@ -7,7 +7,7 @@ const Header = () => {
     setUser(localStorage.getItem('user'));
   }, []);
 
-  const logout = e => {
+  const logout = (e) => {
     e.preventDefault();
     setUser('');
     localStorage.removeItem('user');
@@ -18,9 +18,7 @@ const Header = () => {
   return (
     <div className="mb-4">
       <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a className="navbar-brand" href="/">
-          CONTROL DE GESTIÓN
-        </a>
+        <h2 className="navbar-brand">CONTROL DE GESTIÓN</h2>
         <button
           className="navbar-toggler"
           type="button"
@@ -42,6 +40,7 @@ const Header = () => {
                 type="submit"
                 onClick={logout}
                 className="btn btn-primary"
+                title="Cerrar sesión"
               >
                 <i className="material-icons">logout</i>
               </button>

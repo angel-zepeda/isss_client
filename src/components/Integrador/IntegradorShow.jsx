@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 import Header from '../Header';
-import { SERVER } from '../../global';
+import { URLS } from '../../global';
 // import Swal from 'sweetalert2'
 
 const IntegradorShow = ({ match, history }) => {
@@ -12,7 +12,7 @@ const IntegradorShow = ({ match, history }) => {
   useEffect(() => {
     const getData = async () => {
       const response = await axios.get(
-        `${SERVER}integrador/show/${match.params.id}`
+        `${URLS.server}integrador/show/${match.params.id}`
       );
       setRegister(response.data.pensioner2);
     };
@@ -53,9 +53,9 @@ const IntegradorShow = ({ match, history }) => {
     <div>
       <Header />
       <div className="container-fluid">
-        <div className="" style={myCustomScrollbar}>
-          <table className="table table-bordered table-hover table-sm">
-            <thead className="thead-dark">
+        <div className="mx-auto" style={myCustomScrollbar}>
+          <table className="table">
+            <thead className="thead text-primary">
               <tr className="text-center">
                 <th scope="col">Turno</th>
                 <th scope="col">Número de oficio</th>
@@ -84,8 +84,8 @@ const IntegradorShow = ({ match, history }) => {
             </thead>
             <tbody>
               {register !== ''
-                ? register.map(r => (
-                    <tr className="text-center">
+                ? register.map((r, index) => (
+                    <tr key={index} className="text-center">
                       <td>{r.pensioner1.turno}</td>
                       <td>{r.pensioner1.numeroOficio}</td>
                       <td>{r.pensioner1.fechaOficio}</td>
@@ -95,7 +95,7 @@ const IntegradorShow = ({ match, history }) => {
                       <td>{r.pensioner1.numeroJuicio}</td>
                       <td>{r.pensioner1.turnado}</td>
                       <td>
-                        {r.pensioner1.anexo.map(anexo => (
+                        {r.pensioner1.anexo.map((anexo) => (
                           <a
                             key={anexo}
                             target="_blank"
@@ -118,7 +118,7 @@ const IntegradorShow = ({ match, history }) => {
                       <td>{r.estatus_expediente}</td>
                       <td>{r.clasificacion}</td>
                       <td>
-                        {r.anexo.map(anexo => (
+                        {r.anexo.map((anexo) => (
                           <a
                             key={anexo}
                             target="_blank"
@@ -128,7 +128,7 @@ const IntegradorShow = ({ match, history }) => {
                         ))}
                       </td>
                       {localStorage.getItem('role') === 'consultor' ? null : (
-                        <div>
+                        <>
                           <td>
                             <Link
                               className="btn btn-warning"
@@ -142,7 +142,7 @@ const IntegradorShow = ({ match, history }) => {
                             <button
                               onClick={async () => {
                                 const response = await axios.delete(
-                                  `${SERVER}/integrador/${r._id}`
+                                  `${URLS.server}/integrador/${r._id}`
                                 );
                                 // const response2 = await axios.delete(global.server + `secretaria/${r.pensioner1._id}`)
                                 if (response.data.code === 200)
@@ -153,7 +153,7 @@ const IntegradorShow = ({ match, history }) => {
                               ELIMINAR
                             </button>
                           </td>
-                        </div>
+                        </>
                       )}
                     </tr>
                   ))

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
 import Header from '../Header';
-import { SERVER } from '../../global';
+import { URLS } from '../../global';
 
 const EditSecretaria = ({ match }) => {
   const [saveStatus, setSaveStatus] = useState(false);
@@ -21,14 +21,14 @@ const EditSecretaria = ({ match }) => {
   useEffect(() => {
     const getRegister = async () => {
       const response = await axios.get(
-        `${SERVER}/secretaria/${match.params.id}`
+        `${URLS.server}/secretaria/${match.params.id}`
       );
       setRegister(response.data.pensioner);
     };
     getRegister();
   }, [match.params.id]);
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setRegister({
       ...register,
       [e.target.name]: e.target.value,
@@ -37,14 +37,14 @@ const EditSecretaria = ({ match }) => {
 
   const saveRegister = async () => {
     try {
-      await axios.put(`${SERVER}/secretaria/${match.params.id}`, register);
+      await axios.put(`${URLS.server}/secretaria/${match.params.id}`, register);
       setSaveStatus(true);
     } catch (error) {
       throw error;
     }
   };
 
-  const handelOnSubmit = e => {
+  const handelOnSubmit = (e) => {
     e.preventDefault();
     saveRegister();
   };

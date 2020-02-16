@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import Header from '../Header';
 import Spinner from '../Spinner';
-import { SERVER } from '../../global';
+import { URLS } from '../../global';
 
 const IntegradorForm = ({ match }) => {
   const [saveStatus, setSaveStatus] = useState(false);
@@ -31,13 +31,13 @@ const IntegradorForm = ({ match }) => {
     anexo: [],
   });
 
-  const handleOnSubmit = e => {
+  const handleOnSubmit = (e) => {
     e.preventDefault();
     setShowSpinner(true);
     saveRegister();
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setRegister({
       ...register,
       [e.target.name]: e.target.value,
@@ -57,8 +57,8 @@ const IntegradorForm = ({ match }) => {
   };
 
   const saveRegister = async () => {
-    const response = await axios.post(`${SERVER}/integrador`, register);
-    await axios.put(`${SERVER}/secretaria/${match.params.id}`, {
+    const response = await axios.post(`${URLS.server}/integrador`, register);
+    await axios.put(`${URLS.server}/secretaria/${match.params.id}`, {
       complement: true,
     });
     console.log(response);
@@ -85,7 +85,7 @@ const IntegradorForm = ({ match }) => {
     var data = new FormData();
     for (let i = 0; i <= file.files.length; i++) {
       data.append('files', file.files[i]);
-      await axios.post(`${SERVER}/files`, data);
+      await axios.post(`${URLS.server}/files`, data);
     }
   };
 

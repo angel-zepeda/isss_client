@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Header from '../Header';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { SERVER } from '../../global';
+import { URLS } from '../../global';
 import Spinner from '../Spinner';
 
 const SecretariaForm = ({ history }) => {
@@ -21,7 +21,7 @@ const SecretariaForm = ({ history }) => {
     anexo: [],
   });
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setRegister({
       ...register,
       [e.target.name]: e.target.value,
@@ -40,14 +40,14 @@ const SecretariaForm = ({ history }) => {
     }
   };
 
-  const handelOnSubmit = e => {
+  const handelOnSubmit = (e) => {
     e.preventDefault();
     setShowSpinner(true);
     saveRegister();
   };
 
   const saveRegister = async () => {
-    const response = await axios.post(`${SERVER}/secretaria`, register);
+    const response = await axios.post(`${URLS.server}/secretaria`, register);
     console.log(response);
     if (response.data.code === 200) {
       setShowSpinner(false);
@@ -72,7 +72,7 @@ const SecretariaForm = ({ history }) => {
     let data = new FormData();
     for (let i = 0; i <= file.files.length; i++) {
       data.append('files', file.files[i]);
-      await axios.post(`${SERVER}/files`, data);
+      await axios.post(`${URLS.server}/files`, data);
     }
   };
   if (saveStatus) history.push('/secretaria');

@@ -4,7 +4,7 @@ import Header from '../Header';
 import Pensioner from './Pensioner';
 import { Link, Redirect } from 'react-router-dom';
 import Search from '../Search';
-import { SERVER } from '../../global';
+import { URLS } from '../../global';
 
 const myCustomScrollbar = {
   position: 'relative',
@@ -19,7 +19,7 @@ const Secretaria = () => {
   const [count, setCount] = useState(0);
   useEffect(() => {
     const getData = async () => {
-      const response = await axios(`${SERVER}/secretaria`);
+      const response = await axios(`${URLS.server}/secretaria`);
       setRegisters(response.data);
       setCount(response.data.pensioners1.length);
     };
@@ -29,7 +29,7 @@ const Secretaria = () => {
   if (localStorage.getItem('token') === null) return <Redirect to="" />;
 
   const getData = async () => {
-    const response = await axios(`${SERVER}/secretaria`);
+    const response = await axios(`${URLS.server}/secretaria`);
     setRegisters(response.data);
   };
 
@@ -72,7 +72,7 @@ const Secretaria = () => {
             </div>
           </div>
           <div style={myCustomScrollbar}>
-            <table className="table table-bordered table-hover table-sm">
+            <table className="table table-hover table-sm">
               <thead className="thead-light">
                 <tr className="text-center">
                   <th scope="col">Turno</th>
@@ -91,7 +91,7 @@ const Secretaria = () => {
               </thead>
               <tbody>
                 {registers.pensioners1
-                  ? registers.pensioners1.map(pensioner => (
+                  ? registers.pensioners1.map((pensioner) => (
                       <Pensioner
                         key={pensioner._id}
                         pensioners={pensioner}

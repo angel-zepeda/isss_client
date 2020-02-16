@@ -2,7 +2,7 @@ import React, { useState, Fragment } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
-import { SERVER } from '../../global';
+import { URLS } from '../../global';
 
 const Pensioner = ({ pensioners, setUpdateRegisters }) => {
   const [pdfVisibility, setPdfVisibility] = useState(false);
@@ -19,7 +19,7 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
       cancelButtonText: 'Cancelar',
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
-    }).then(result => {
+    }).then((result) => {
       if (result.value) {
         deleteRegister();
       }
@@ -28,7 +28,7 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
 
   const deleteRegister = async () => {
     const response = await axios.delete(
-      `${SERVER}/secretaria/${pensioners._id}`
+      `${URLS.server}/secretaria/${pensioners._id}`
     );
     if (response.data.code === 200) setUpdateRegisters(true);
   };
@@ -60,7 +60,7 @@ const Pensioner = ({ pensioners, setUpdateRegisters }) => {
       <td>{pensioners.turnado}</td>
 
       {pdfVisibility
-        ? pensioners.anexo.map(pdf => (
+        ? pensioners.anexo.map((pdf) => (
             <td key={pdf}>
               <a
                 href={global.host + `${pdf}`}
