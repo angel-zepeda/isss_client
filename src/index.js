@@ -11,6 +11,8 @@ import IntegradorShow from './components/Integrador/IntegradorShow';
 import IntegradorEdit from './components/Integrador/EditIntegrador';
 import Coordinandor from './components/Coordinador/Coordinador';
 import Consultor from './components/Consultor';
+import Download from './components/excel';
+
 import * as serviceWorker from './serviceWorker';
 import {
   Route,
@@ -19,7 +21,7 @@ import {
   Switch,
 } from 'react-router-dom';
 
-const MyRoute = props => {
+const MyRoute = (props) => {
   let token = localStorage.getItem('token');
   if (!token) {
     return <Redirect to="/" />;
@@ -41,6 +43,7 @@ const routing = (
       <MyRoute exact path="/integrador/edit/:id" component={IntegradorEdit} />
       <MyRoute exact path="/coordinador" component={Coordinandor} />
       <MyRoute exact path="/consultor" component={Consultor} />
+      <MyRoute exact path="/excel" component={Download} />
     </Switch>
   </Router>
 );
